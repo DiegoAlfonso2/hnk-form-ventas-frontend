@@ -5,9 +5,7 @@ import { ShoppingBag, ArrowRight, Info } from 'lucide-react';
 interface CartSummaryProps {
   cartItems: CartItem[];
   subtotal: number;
-  deliveryFee: number;
   total: number;
-  isDelivery: boolean;
   isValid: boolean;
   onCheckout: () => void;
   isEditing?: boolean;
@@ -16,9 +14,7 @@ interface CartSummaryProps {
 export const CartSummary: React.FC<CartSummaryProps> = ({
   cartItems,
   subtotal,
-  deliveryFee,
   total,
-  isDelivery,
   isValid,
   onCheckout,
   isEditing = false
@@ -76,13 +72,6 @@ export const CartSummary: React.FC<CartSummaryProps> = ({
               <span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>Subtotal</span>
               <span style={{ color: 'var(--text-main)', fontWeight: 600 }}>${subtotal.toLocaleString('es-AR')}</span>
             </div>
-            
-            {isDelivery && (
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: 'var(--text-muted)', fontWeight: 500 }}>Costo de Envío</span>
-                <span style={{ color: 'var(--text-main)', fontWeight: 600 }}>${deliveryFee.toLocaleString('es-AR')}</span>
-              </div>
-            )}
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.5rem' }}>
               <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 700, color: 'var(--hnk-blue)' }}>
@@ -119,7 +108,7 @@ export const CartSummary: React.FC<CartSummaryProps> = ({
             <ul style={{ paddingLeft: '1.1rem', marginTop: '0.25rem', display: 'flex', flexDirection: 'column', gap: '0.2rem', fontWeight: 600 }}>
               {cartItems.length === 0 && <li>Selecciona al menos 1 porción</li>}
               <li>Completa tus datos de contacto</li>
-              {isDelivery && <li>Ingresa tu dirección de envío</li>}
+              <li>Selecciona una franja horaria de entrega</li>
             </ul>
           </div>
         </div>

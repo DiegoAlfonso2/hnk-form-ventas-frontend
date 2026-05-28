@@ -14,7 +14,6 @@ function App() {
     updateQuantity,
     cartItems,
     subtotal,
-    deliveryFee,
     total,
     isFormValid,
     resetCart,
@@ -43,8 +42,7 @@ function App() {
           name: 'Pedro Mármol',
           phone: '+54 9 11 9876 5432',
           email: 'pedro@marmol.com',
-          deliveryType: 'pickup',
-          address: '',
+          deliveryTimeSlot: '14-15',
           notes: 'Retiro a las 14:30 hs. Por favor preparar caliente.'
         },
         {
@@ -211,9 +209,7 @@ function App() {
               <CartSummary
                 cartItems={cartItems}
                 subtotal={subtotal}
-                deliveryFee={deliveryFee}
                 total={total}
-                isDelivery={contact.deliveryType === 'delivery'}
                 isValid={isFormValid}
                 onCheckout={handleCheckout}
                 isEditing={isEditingExistingOrder}

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ContactInfo } from '../../hooks/useCart';
-import { User, Phone, Mail, MapPin, MessageSquare, Truck, Store } from 'lucide-react';
+import { User, Phone, Mail, Clock, MessageSquare, Store } from 'lucide-react';
 
 interface ContactFormProps {
   contact: ContactInfo;
@@ -9,14 +9,19 @@ interface ContactFormProps {
 }
 
 export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange, isReadOnlyContact = false }) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     onChange({ ...contact, [name]: value });
   };
 
-  const setDeliveryType = (type: 'delivery' | 'pickup') => {
-    onChange({ ...contact, deliveryType: type });
-  };
+  const timeSlots = [
+    { value: '13-14', label: '13:00 a 14:00 hs' },
+    { value: '14-15', label: '14:00 a 15:00 hs' },
+    { value: '15-16', label: '15:00 a 16:00 hs' },
+    { value: '16-17', label: '16:00 a 17:00 hs' },
+    { value: '17-18', label: '17:00 a 18:00 hs' },
+    { value: 'evento-fin', label: 'Al finalizar el evento' }
+  ];
 
   return (
     <section className="glass-panel animate-fade-in" style={{ padding: '1.5rem', height: '100%' }}>
@@ -92,60 +97,38 @@ export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange, isR
         </div>
       </div>
 
-      <div className="form-group" style={{ marginTop: '0.5rem', marginBottom: '1.5rem' }}>
-        <label className="form-label">Método de Entrega</label>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem', marginTop: '0.25rem' }}>
-          <button
-            type="button"
-            className={`btn ${contact.deliveryType === 'pickup' ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={() => setDeliveryType('pickup')}
-            style={{ padding: '0.75rem' }}
-          >
-            <Store size={18} />
-            Retiro en Local
-          </button>
-          <button
-            type="button"
-            className={`btn ${contact.deliveryType === 'delivery' ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={() => setDeliveryType('delivery')}
-            style={{ padding: '0.75rem' }}
-          >
-            <Truck size={18} />
-            Envío a Domicilio
-          </button>
+      {/* Static Pickup Details Box */}
+      <div className="glass-panel" style={{ padding: '1rem', background: 'var(--hnk-blue-light)', marginBottom: '1.25rem', borderColor: 'var(--accent-blue)', display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+        <Store size={22} style={{ color: 'var(--hnk-blue)', flexShrink: 0, marginTop: '0.125rem' }} />
+        <div>
+          <strong style={{ fontFamily: 'var(--font-display)', color: 'var(--hnk-blue)', fontSize: '0.95rem', display: 'block' }}>Retiro de Pedidos</strong>
+          <span style={{ fontSize: '0.85rem', color: 'var(--text-main)', fontWeight: 600 }}>Todos los pedidos se retiran únicamente en el Colegio (Ingreso por Pringles 268) el Sábado 06 de Junio.</span>
         </div>
       </div>
 
-      {contact.deliveryType === 'delivery' ? (
-        <div className="form-group animate-fade-in">
-          <label htmlFor="address" className="form-label">Dirección de Envío</label>
-          <div style={{ position: 'relative' }}>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              className="form-control"
-              placeholder="Av. Santa Fe 1234, CABA"
-              value={contact.address}
-              onChange={handleChange}
-              required
-              style={{ paddingLeft: '2.75rem' }}
-            />
-            <MapPin size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.8 }} />
-          </div>
+      {/* Time Slot Selection Dropdown */}
+      <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+        <label htmlFor="deliveryTimeSlot" className="form-label">Franja Horaria de Entrega</label>
+        <div style={{ position: 'relative' }}>
+          <select
+            id="deliveryTimeSlot"
+            name="deliveryTimeSlot"
+            className="form-control"
+            value={contact.deliveryTimeSlot}
+            onChange={handleChange}
+            required
+            style={{ paddingLeft: '2.75rem', appearance: 'none', cursor: 'pointer' }}
+          >
+            <option value="" disabled>Selecciona un horario de retiro...</option>
+            {timeSlots.map(slot => (
+              <option key={slot.value} value={slot.value}>{slot.label}</option>
+            ))}
+          </select>
+          <Clock size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.8, pointerEvents: 'none' }} />
+          {/* Dropdown Arrow Indicator */}
+          <div style={{ position: 'absolute', right: '1.25rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--text-muted)', borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '6px solid currentColor' }} />
         </div>
-      ) : (
-        <div className="glass-panel animate-fade-in" style={{ padding: '1rem', background: 'var(--bg-secondary)', marginBottom: '1.25rem', borderStyle: 'dashed' }}>
-          <p style={{ fontSize: '0.9rem', color: 'var(--text-main)', display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-            <Store size={18} style={{ color: 'var(--accent-pink)', marginTop: '0.125rem', flexShrink: 0 }} />
-            <span>
-              <strong>Punto de retiro:</strong> Ingreso por Pringles 268 (Colegio HNK).
-              <br />
-              <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>Horario: Sábado 06 de Junio a partir de las 13:00 hs.</span>
-            </span>
-          </p>
-        </div>
-      )}
+      </div>
 
       <div className="form-group" style={{ marginBottom: 0 }}>
         <label htmlFor="notes" className="form-label">Notas Adicionales (Opcional)</label>
@@ -154,7 +137,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange, isR
             id="notes"
             name="notes"
             className="form-control"
-            placeholder="Aclaraciones sobre alergias, indicaciones para retirar, etc..."
+            placeholder="Aclaraciones sobre alergias, indicaciones especiales, etc..."
             value={contact.notes}
             onChange={handleChange}
             rows={3}

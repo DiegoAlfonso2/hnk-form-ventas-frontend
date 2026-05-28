@@ -12,8 +12,7 @@ export interface ContactInfo {
   name: string;
   phone: string;
   email: string;
-  deliveryType: 'delivery' | 'pickup';
-  address: string;
+  deliveryTimeSlot: string;
   notes: string;
 }
 
@@ -58,8 +57,7 @@ export const useCart = () => {
     name: '',
     phone: '',
     email: '',
-    deliveryType: 'pickup',
-    address: '',
+    deliveryTimeSlot: '',
     notes: ''
   });
 
@@ -88,22 +86,18 @@ export const useCart = () => {
     return cartItems.reduce((acc, item) => acc + (item.menuItem.price * item.quantity), 0);
   }, [cartItems]);
 
-  const deliveryFee = useMemo(() => {
-    return contact.deliveryType === 'delivery' && subtotal > 0 ? 1500 : 0;
-  }, [contact.deliveryType, subtotal]);
+  const deliveryFee = 0; // All pickups at school, no delivery fee
 
-  const total = useMemo(() => {
-    return subtotal + deliveryFee;
-  }, [subtotal, deliveryFee]);
+  const total = subtotal;
 
   const isFormValid = useMemo(() => {
     const hasItems = itemsCount > 0;
     const hasName = contact.name.trim().length > 0;
     const hasPhone = contact.phone.trim().length > 0;
     const hasEmail = contact.email.trim().length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email);
-    const hasAddressIfDelivery = contact.deliveryType === 'pickup' || contact.address.trim().length > 0;
+    const hasTimeSlot = contact.deliveryTimeSlot.trim().length > 0;
 
-    return hasItems && hasName && hasPhone && hasEmail && hasAddressIfDelivery;
+    return hasItems && hasName && hasPhone && hasEmail && hasTimeSlot;
   }, [contact, itemsCount]);
 
   const resetCart = () => {
@@ -111,8 +105,7 @@ export const useCart = () => {
       name: '',
       phone: '',
       email: '',
-      deliveryType: 'pickup',
-      address: '',
+      deliveryTimeSlot: '',
       notes: ''
     });
     setQuantities({});
