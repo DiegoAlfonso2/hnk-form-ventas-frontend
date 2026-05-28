@@ -12,6 +12,7 @@ interface PaymentSectionProps {
   total: number;
   onBack: () => void;
   onOrderCompleted: () => void;
+  onUploadVoucher: (file: File) => Promise<any>;
 }
 
 export const PaymentSection: React.FC<PaymentSectionProps> = ({
@@ -20,7 +21,8 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
   cartItems,
   total,
   onBack,
-  onOrderCompleted
+  onOrderCompleted,
+  onUploadVoucher
 }) => {
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [voucherFile, setVoucherFile] = useState<File | null>(null);
@@ -99,21 +101,21 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
     }
   };
 
-  const handleUploadVoucher = () => {
+  const handleUploadVoucher = async () => {
     if (!voucherFile) return;
 
     setUploadStatus('uploading');
+    setUploadProgress(20);
     
-    // Simulate upload progress
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += 10;
-      setUploadProgress(progress);
-      if (progress >= 100) {
-        clearInterval(interval);
-        setUploadStatus('success');
-      }
-    }, 200);
+    try {
+      setUploadProgress(60);
+      await onUploadVoucher(voucherFile);
+      setUploadProgress(100);
+      setUploadStatus('success');
+    } catch (err) {
+      console.error(err);
+      setUploadStatus('error');
+    }
   };
 
   const removeFile = () => {

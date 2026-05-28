@@ -12,6 +12,7 @@ export interface ContactInfo {
   name: string;
   phone: string;
   email: string;
+  classSection: string;
   deliveryTimeSlot: string;
   notes: string;
 }
@@ -52,11 +53,12 @@ export const MENU_ITEMS: MenuItem[] = [
   }
 ];
 
-export const useCart = () => {
+export const useCart = (fetchedMenuItems: MenuItem[] = []) => {
   const [contact, setContact] = useState<ContactInfo>({
     name: '',
     phone: '',
     email: '',
+    classSection: '',
     deliveryTimeSlot: '',
     notes: ''
   });
@@ -71,12 +73,14 @@ export const useCart = () => {
     });
   };
 
+  const activeMenuItems = fetchedMenuItems.length > 0 ? fetchedMenuItems : MENU_ITEMS;
+
   const cartItems = useMemo<CartItem[]>(() => {
-    return MENU_ITEMS.map(menuItem => ({
+    return activeMenuItems.map(menuItem => ({
       menuItem,
       quantity: quantities[menuItem.id] || 0
     })).filter(item => item.quantity > 0);
-  }, [quantities]);
+  }, [quantities, activeMenuItems]);
 
   const itemsCount = useMemo(() => {
     return cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -95,9 +99,10 @@ export const useCart = () => {
     const hasName = contact.name.trim().length > 0;
     const hasPhone = contact.phone.trim().length > 0;
     const hasEmail = contact.email.trim().length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email);
+    const hasClassSection = contact.classSection.trim().length > 0;
     const hasTimeSlot = contact.deliveryTimeSlot.trim().length > 0;
 
-    return hasItems && hasName && hasPhone && hasEmail && hasTimeSlot;
+    return hasItems && hasName && hasPhone && hasEmail && hasClassSection && hasTimeSlot;
   }, [contact, itemsCount]);
 
   const resetCart = () => {
@@ -105,6 +110,7 @@ export const useCart = () => {
       name: '',
       phone: '',
       email: '',
+      classSection: '',
       deliveryTimeSlot: '',
       notes: ''
     });

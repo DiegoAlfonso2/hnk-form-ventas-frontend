@@ -1,12 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useCart } from './hooks/useCart';
+import type { MenuItem } from './hooks/useCart';
 import { ContactForm } from './components/Step1Menu/ContactForm';
 import { MenuList } from './components/Step1Menu/MenuList';
 import { CartSummary } from './components/Step1Menu/CartSummary';
 import { PaymentSection } from './components/Step2Pay/PaymentSection';
 import { HnkLogo } from './components/ui/HnkLogo';
+import { api } from './utils/api';
+import type { BackendEvent, ClassSectionOption } from './utils/api';
 
 function App() {
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [classSections, setClassSections] = useState<ClassSectionOption[]>([]);
+  const [currentEvent, setCurrentEvent] = useState<BackendEvent | null>(null);
+  const [orderId, setOrderId] = useState<string>(''); // UUID of the order
+  const [orderNumber, setOrderNumber] = useState<string>(''); // Readable PED-XXXXXX
+  const [step, setStep] = useState<1 | 2>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isEditingExistingOrder, setIsEditingExistingOrder] = useState<boolean>(false);
+
   const {
     contact,
     setContact,
@@ -18,65 +30,135 @@ function App() {
     isFormValid,
     resetCart,
     loadOrderData
-  } = useCart();
+  } = useCart(menuItems);
 
-  const [step, setStep] = useState<1 | 2>(1);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [orderNumber, setOrderNumber] = useState<string>('');
-  const [isEditingExistingOrder, setIsEditingExistingOrder] = useState<boolean>(false);
-
-  // Check for deep links (e.g. ?orderId=HNK-4819) on page mount
+  // Fetch initial app data (Events, Menu Items, Class Sections) and handle deep linking on mount
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const urlOrderId = params.get('orderId');
-    
-    if (urlOrderId) {
-      // Set states for the retrieved order
-      setOrderNumber(urlOrderId);
-      setIsEditingExistingOrder(true);
-      setStep(2); // Jump directly to Payment and upload proof step (Step 2)
-      
-      // Inject mock retrieved order data for prototyping
-      loadOrderData(
-        {
-          name: 'Pedro Mármol',
-          phone: '+54 9 11 9876 5432',
-          email: 'pedro@marmol.com',
-          deliveryTimeSlot: '14-15',
-          notes: 'Retiro a las 14:30 hs. Por favor preparar caliente.'
-        },
-        {
-          sorrentinos: 2,
-          lasagna: 1
+    const loadAppData = async () => {
+      setIsLoading(true);
+      try {
+        // 1. Fetch active events
+        const eventsList = await api.getEvents();
+        const activeEvent = eventsList[0];
+        if (!activeEvent) {
+          console.error("No active events found");
+          setIsLoading(false);
+          return;
         }
-      );
-    }
+        setCurrentEvent(activeEvent);
+
+        // 2. Fetch menu items for this event (and convert prices from cents to pesos)
+        const backendMenu = await api.getEventMenu(activeEvent.id);
+        const mappedMenu: MenuItem[] = backendMenu.map((item, idx) => ({
+          id: item.id,
+          name: item.name,
+          description: item.description || '',
+          price: item.price / 100,
+          imageColor: idx % 4 === 0 
+            ? 'linear-gradient(135deg, #ff7b00, #ffae00)' 
+            : idx % 4 === 1 
+              ? 'linear-gradient(135deg, #e63946, #f77f00)' 
+              : idx % 4 === 2 
+                ? 'linear-gradient(135deg, #2a9d8f, #e9c46a)' 
+                : 'linear-gradient(135deg, #6d597a, #b56576)'
+        }));
+        setMenuItems(mappedMenu);
+
+        // 3. Fetch class sections for this event's school year
+        const sectionsList = await api.getClassSections(activeEvent.schoolYear);
+        setClassSections(sectionsList);
+
+        // 4. Check for deep linking (?orderId={UUID})
+        const params = new URLSearchParams(window.location.search);
+        const urlOrderId = params.get('orderId');
+        
+        if (urlOrderId) {
+          setOrderId(urlOrderId);
+          setIsEditingExistingOrder(true);
+          setStep(2);
+
+          try {
+            const order = await api.getOrder(urlOrderId);
+            setOrderNumber(order.orderNumber);
+            
+            // Map order items to quantities state
+            const quantitiesMap: Record<string, number> = {};
+            order.items.forEach(it => {
+              quantitiesMap[it.menuItemId] = it.quantity;
+            });
+
+            loadOrderData(
+              {
+                name: order.customerName,
+                phone: order.customerPhone,
+                email: order.customerEmail,
+                classSection: order.classSection,
+                deliveryTimeSlot: '13-14', // Default placeholder Horario
+                notes: ''
+              },
+              quantitiesMap
+            );
+          } catch (orderErr) {
+            console.error("Error retrieving order details via UUID link", orderErr);
+            // Clear invalid URL parameter and reset step
+            window.history.pushState({}, '', window.location.pathname);
+            setIsEditingExistingOrder(false);
+            setStep(1);
+          }
+        }
+      } catch (err) {
+        console.error("Initialization error", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadAppData();
   }, []);
 
-  const handleCheckout = () => {
-    if (!isFormValid) return;
+  const handleCheckout = async () => {
+    if (!isFormValid || !currentEvent) return;
 
     setIsLoading(true);
 
-    // Simulate backend REST API call to submit/update order
-    setTimeout(() => {
-      // If we are editing, preserve orderNumber; otherwise generate a new one
-      const randomId = Math.floor(1000 + Math.random() * 9000);
-      const finalOrderNumber = isEditingExistingOrder ? orderNumber : `HNK-${randomId}`;
-      
-      if (!isEditingExistingOrder) {
-        setOrderNumber(finalOrderNumber);
+    try {
+      const itemsPayload = cartItems.map(item => ({
+        menuItemId: item.menuItem.id,
+        quantity: item.quantity
+      }));
+
+      if (isEditingExistingOrder) {
+        // Edit flow
+        const updatedOrder = await api.editOrder(orderId, {
+          items: itemsPayload
+        });
+        setOrderNumber(updatedOrder.orderNumber);
+      } else {
+        // Create flow
+        const createRes = await api.createOrder({
+          eventId: currentEvent.id,
+          customerName: contact.name,
+          customerEmail: contact.email,
+          customerPhone: contact.phone,
+          classSection: contact.classSection,
+          items: itemsPayload
+        });
+        
+        setOrderId(createRes.order.id);
+        setOrderNumber(createRes.order.orderNumber);
+        
+        // Update URL to use UUID (order.id)
+        const newUrl = `${window.location.origin}${window.location.pathname}?orderId=${createRes.order.id}`;
+        window.history.pushState({ orderId: createRes.order.id }, '', newUrl);
       }
       
-      setIsLoading(false);
       setStep(2);
-      
-      // Synchronize URL: add ?orderId=HNK-XXXX to address bar
-      const newUrl = `${window.location.origin}${window.location.pathname}?orderId=${finalOrderNumber}`;
-      window.history.pushState({ orderId: finalOrderNumber }, '', newUrl);
-      
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 1500);
+    } catch (err: any) {
+      alert(err.message || 'Ocurrió un error al procesar el pedido. Por favor intenta de nuevo.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleBackToStep1 = () => {
@@ -87,6 +169,7 @@ function App() {
   const handleOrderCompleted = () => {
     resetCart();
     setStep(1);
+    setOrderId('');
     setOrderNumber('');
     setIsEditingExistingOrder(false);
     
@@ -94,6 +177,10 @@ function App() {
     window.history.pushState({}, '', window.location.pathname);
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleUploadVoucher = async (file: File) => {
+    return api.uploadPaymentProof(orderId, file);
   };
 
   return (
@@ -195,10 +282,12 @@ function App() {
                 contact={contact} 
                 onChange={setContact} 
                 isReadOnlyContact={isEditingExistingOrder}
+                classSections={classSections}
               />
 
               {/* Menu Portions Selector */}
               <MenuList 
+                menuItems={menuItems}
                 quantities={quantities} 
                 onQuantityChange={updateQuantity} 
               />
@@ -225,6 +314,7 @@ function App() {
             total={total}
             onBack={handleBackToStep1}
             onOrderCompleted={handleOrderCompleted}
+            onUploadVoucher={handleUploadVoucher}
           />
         )}
       </main>

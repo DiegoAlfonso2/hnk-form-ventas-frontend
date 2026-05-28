@@ -1,14 +1,14 @@
 import React from 'react';
-import { MENU_ITEMS } from '../../hooks/useCart';
 import type { MenuItem } from '../../hooks/useCart';
 import { Plus, Minus, Utensils } from 'lucide-react';
 
 interface MenuListProps {
+  menuItems: MenuItem[];
   quantities: Record<string, number>;
   onQuantityChange: (id: string, delta: number) => void;
 }
 
-export const MenuList: React.FC<MenuListProps> = ({ quantities, onQuantityChange }) => {
+export const MenuList: React.FC<MenuListProps> = ({ menuItems = [], quantities, onQuantityChange }) => {
   return (
     <section className="animate-fade-in">
       <h3 style={{ 
@@ -25,7 +25,7 @@ export const MenuList: React.FC<MenuListProps> = ({ quantities, onQuantityChange
       </h3>
       
       <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.25rem' }}>
-        {MENU_ITEMS.map((item: MenuItem) => {
+        {menuItems.map((item: MenuItem) => {
           const qty = quantities[item.id] || 0;
           return (
             <div key={item.id} className="glass-panel" style={{ display: 'flex', flexDirection: 'column', minHeight: '140px', transition: 'all var(--transition-normal)' }}>

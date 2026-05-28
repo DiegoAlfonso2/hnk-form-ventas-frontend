@@ -1,14 +1,20 @@
 import React from 'react';
 import type { ContactInfo } from '../../hooks/useCart';
-import { User, Phone, Mail, Clock, MessageSquare, Store } from 'lucide-react';
+import { User, Phone, Mail, Clock, MessageSquare, Store, GraduationCap } from 'lucide-react';
 
 interface ContactFormProps {
   contact: ContactInfo;
   onChange: (contact: ContactInfo) => void;
   isReadOnlyContact?: boolean;
+  classSections: { id: string; description: string }[];
 }
 
-export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange, isReadOnlyContact = false }) => {
+export const ContactForm: React.FC<ContactFormProps> = ({ 
+  contact, 
+  onChange, 
+  isReadOnlyContact = false,
+  classSections = []
+}) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     onChange({ ...contact, [name]: value });
@@ -94,6 +100,35 @@ export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange, isR
             />
             <Mail size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.8 }} />
           </div>
+        </div>
+      </div>
+
+      {/* Class Section Dropdown */}
+      <div className="form-group" style={{ marginBottom: '1.25rem' }}>
+        <label htmlFor="classSection" className="form-label">Grado / Sala del Alumno {isReadOnlyContact && <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>(No editable)</span>}</label>
+        <div style={{ position: 'relative' }}>
+          <select
+            id="classSection"
+            name="classSection"
+            className="form-control"
+            value={contact.classSection}
+            onChange={handleChange}
+            required
+            disabled={isReadOnlyContact}
+            style={{ 
+              paddingLeft: '2.75rem', 
+              appearance: 'none', 
+              cursor: isReadOnlyContact ? 'not-allowed' : 'pointer',
+              opacity: isReadOnlyContact ? 0.7 : 1
+            }}
+          >
+            <option value="" disabled>Selecciona una sala o grado...</option>
+            {classSections.map(section => (
+              <option key={section.id} value={section.id}>{section.description}</option>
+            ))}
+          </select>
+          <GraduationCap size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.8, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', right: '1.25rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--text-muted)', borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '6px solid currentColor' }} />
         </div>
       </div>
 
