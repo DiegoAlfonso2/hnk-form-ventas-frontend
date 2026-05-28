@@ -1,0 +1,134 @@
+import { useState, useMemo } from 'react';
+
+export interface MenuItem {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  imageColor: string; // Gradient color for beautiful cards
+}
+
+export interface ContactInfo {
+  name: string;
+  phone: string;
+  email: string;
+  deliveryType: 'delivery' | 'pickup';
+  address: string;
+  notes: string;
+}
+
+export interface CartItem {
+  menuItem: MenuItem;
+  quantity: number;
+}
+
+export const MENU_ITEMS: MenuItem[] = [
+  {
+    id: 'sorrentinos',
+    name: 'Sorrentinos de Calabaza y Cabra',
+    description: 'Pasta artesanal rellena de calabaza asada y queso de cabra cremoso con tomillo.',
+    price: 8500,
+    imageColor: 'linear-gradient(135deg, #ff7b00, #ffae00)'
+  },
+  {
+    id: 'lasagna',
+    name: 'Lasagna Bolognese al Horno',
+    description: 'Capas de pasta fresca, ragú de ternera estofado lentamente y salsa bechamel gratinada.',
+    price: 9200,
+    imageColor: 'linear-gradient(135deg, #e63946, #f77f00)'
+  },
+  {
+    id: 'canelones',
+    name: 'Canelones de Espinaca y Ricota',
+    description: 'Canelones rellenos de espinaca orgánica y ricota suave, bañados en salsa pomodoro y queso parmesano.',
+    price: 7800,
+    imageColor: 'linear-gradient(135deg, #2a9d8f, #e9c46a)'
+  },
+  {
+    id: 'risotto',
+    name: 'Risotto de Hongos y Trufa',
+    description: 'Arroz arborio cremoso con mix de champiñones, portobellos, gírgolas y un toque de aceite de trufa negra.',
+    price: 10500,
+    imageColor: 'linear-gradient(135deg, #6d597a, #b56576)'
+  }
+];
+
+export const useCart = () => {
+  const [contact, setContact] = useState<ContactInfo>({
+    name: '',
+    phone: '',
+    email: '',
+    deliveryType: 'pickup',
+    address: '',
+    notes: ''
+  });
+
+  const [quantities, setQuantities] = useState<Record<string, number>>({});
+
+  const updateQuantity = (id: string, delta: number) => {
+    setQuantities(prev => {
+      const current = prev[id] || 0;
+      const next = Math.max(0, current + delta);
+      return { ...prev, [id]: next };
+    });
+  };
+
+  const cartItems = useMemo<CartItem[]>(() => {
+    return MENU_ITEMS.map(menuItem => ({
+      menuItem,
+      quantity: quantities[menuItem.id] || 0
+    })).filter(item => item.quantity > 0);
+  }, [quantities]);
+
+  const itemsCount = useMemo(() => {
+    return cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  }, [cartItems]);
+
+  const subtotal = useMemo(() => {
+    return cartItems.reduce((acc, item) => acc + (item.menuItem.price * item.quantity), 0);
+  }, [cartItems]);
+
+  const deliveryFee = useMemo(() => {
+    return contact.deliveryType === 'delivery' && subtotal > 0 ? 1500 : 0;
+  }, [contact.deliveryType, subtotal]);
+
+  const total = useMemo(() => {
+    return subtotal + deliveryFee;
+  }, [subtotal, deliveryFee]);
+
+  const isFormValid = useMemo(() => {
+    const hasItems = itemsCount > 0;
+    const hasName = contact.name.trim().length > 0;
+    const hasPhone = contact.phone.trim().length > 0;
+    const hasEmail = contact.email.trim().length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email);
+    const hasAddressIfDelivery = contact.deliveryType === 'pickup' || contact.address.trim().length > 0;
+
+    return hasItems && hasName && hasPhone && hasEmail && hasAddressIfDelivery;
+  }, [contact, itemsCount]);
+
+  const resetCart = () => {
+    setContact({
+      name: '',
+      phone: '',
+      email: '',
+      deliveryType: 'pickup',
+      address: '',
+      notes: ''
+    });
+    setQuantities({});
+  };
+
+  return {
+    contact,
+    setContact,
+    quantities,
+    updateQuantity,
+    cartItems,
+    itemsCount,
+    subtotal,
+    deliveryFee,
+    total,
+    isFormValid,
+    resetCart
+  };
+};
