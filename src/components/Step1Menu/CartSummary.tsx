@@ -10,6 +10,7 @@ interface CartSummaryProps {
   isDelivery: boolean;
   isValid: boolean;
   onCheckout: () => void;
+  isEditing?: boolean;
 }
 
 export const CartSummary: React.FC<CartSummaryProps> = ({
@@ -19,7 +20,8 @@ export const CartSummary: React.FC<CartSummaryProps> = ({
   total,
   isDelivery,
   isValid,
-  onCheckout
+  onCheckout,
+  isEditing = false
 }) => {
   return (
     <section className="glass-panel animate-fade-in" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', height: 'fit-content' }}>
@@ -130,7 +132,7 @@ export const CartSummary: React.FC<CartSummaryProps> = ({
         onClick={onCheckout}
         style={{ width: '100%', padding: '1rem', marginTop: '0.5rem' }}
       >
-        <span>Confirmar Pedido</span>
+        <span>{isEditing ? 'Actualizar Pedido' : 'Confirmar Pedido'}</span>
         <ArrowRight size={18} />
       </button>
     </section>

@@ -462,18 +462,16 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
         </div>
       </div>
 
-      {/* Back button link if not completed */}
-      {uploadStatus !== 'success' && (
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={onBack}
-          style={{ width: 'fit-content', margin: '1rem auto 0 auto', padding: '0.75rem 1.25rem' }}
-        >
-          <ArrowLeft size={16} />
-          Volver a editar pedido
-        </button>
-      )}
+      {/* Back button link - always available to allow editing confirmed/paid orders */}
+      <button
+        type="button"
+        className="btn btn-secondary"
+        onClick={onBack}
+        style={{ width: 'fit-content', margin: '1rem auto 0 auto', padding: '0.75rem 1.25rem' }}
+      >
+        <ArrowLeft size={16} />
+        Volver a editar pedido
+      </button>
 
       <style>{`
         .payment-layout {

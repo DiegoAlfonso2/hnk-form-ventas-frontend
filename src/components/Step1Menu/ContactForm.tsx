@@ -5,9 +5,10 @@ import { User, Phone, Mail, MapPin, MessageSquare, Truck, Store } from 'lucide-r
 interface ContactFormProps {
   contact: ContactInfo;
   onChange: (contact: ContactInfo) => void;
+  isReadOnlyContact?: boolean;
 }
 
-export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange }) => {
+export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange, isReadOnlyContact = false }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     onChange({ ...contact, [name]: value });
@@ -33,7 +34,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange }) =
       </h3>
 
       <div className="form-group">
-        <label htmlFor="name" className="form-label">Nombre Completo</label>
+        <label htmlFor="name" className="form-label">Nombre Completo {isReadOnlyContact && <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>(No editable)</span>}</label>
         <div style={{ position: 'relative' }}>
           <input
             type="text"
@@ -44,7 +45,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange }) =
             value={contact.name}
             onChange={handleChange}
             required
-            style={{ paddingLeft: '2.75rem' }}
+            disabled={isReadOnlyContact}
+            style={{ paddingLeft: '2.75rem', opacity: isReadOnlyContact ? 0.7 : 1, cursor: isReadOnlyContact ? 'not-allowed' : 'text' }}
           />
           <User size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.8 }} />
         </div>
@@ -52,7 +54,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange }) =
 
       <div className="form-row">
         <div className="form-group">
-          <label htmlFor="phone" className="form-label">Teléfono / WhatsApp</label>
+          <label htmlFor="phone" className="form-label">Teléfono / WhatsApp {isReadOnlyContact && <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>(No editable)</span>}</label>
           <div style={{ position: 'relative' }}>
             <input
               type="tel"
@@ -63,14 +65,15 @@ export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange }) =
               value={contact.phone}
               onChange={handleChange}
               required
-              style={{ paddingLeft: '2.75rem' }}
+              disabled={isReadOnlyContact}
+              style={{ paddingLeft: '2.75rem', opacity: isReadOnlyContact ? 0.7 : 1, cursor: isReadOnlyContact ? 'not-allowed' : 'text' }}
             />
             <Phone size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.8 }} />
           </div>
         </div>
 
         <div className="form-group">
-          <label htmlFor="email" className="form-label">Email</label>
+          <label htmlFor="email" className="form-label">Email {isReadOnlyContact && <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>(No editable)</span>}</label>
           <div style={{ position: 'relative' }}>
             <input
               type="email"
@@ -81,7 +84,8 @@ export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange }) =
               value={contact.email}
               onChange={handleChange}
               required
-              style={{ paddingLeft: '2.75rem' }}
+              disabled={isReadOnlyContact}
+              style={{ paddingLeft: '2.75rem', opacity: isReadOnlyContact ? 0.7 : 1, cursor: isReadOnlyContact ? 'not-allowed' : 'text' }}
             />
             <Mail size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.8 }} />
           </div>

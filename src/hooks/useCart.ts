@@ -118,6 +118,11 @@ export const useCart = () => {
     setQuantities({});
   };
 
+  const loadOrderData = (loadedContact: ContactInfo, loadedQuantities: Record<string, number>) => {
+    setContact(loadedContact);
+    setQuantities(loadedQuantities);
+  };
+
   return {
     contact,
     setContact,
@@ -129,6 +134,7 @@ export const useCart = () => {
     deliveryFee,
     total,
     isFormValid,
-    resetCart
+    resetCart,
+    loadOrderData
   };
 };
