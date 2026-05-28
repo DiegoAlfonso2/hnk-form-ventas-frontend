@@ -1,39 +1,55 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Colors */
-  --bg-primary: hsl(222, 47%, 7%);
-  --bg-secondary: hsl(223, 47%, 11%);
-  --card-bg: rgba(15, 23, 42, 0.45);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --color-primary: hsl(186, 100%, 45%);
-  --color-primary-rgb: 0, 229, 255;
-  --color-primary-hover: hsl(186, 100%, 40%);
-  --color-accent: hsl(271, 91%, 65%);
-  --color-accent-rgb: 168, 85, 247;
-  --color-accent-hover: hsl(271, 91%, 60%);
+  /* Colors - Warm School Festival Palette */
+  --bg-primary: #FFFDF9; /* Cream notebook page */
+  --bg-secondary: #FFF8EB; /* Warm cream */
+  --card-bg: #FFFFFF;
+  --text-main: #002353; /* Deep navy */
+  --text-muted: #4F6482; /* Warm grey-blue */
+  --text-inverse: #FFFFFF;
+
+  /* HNK Brand Colors */
+  --hnk-blue: #003E93;
+  --hnk-blue-light: #E6EEFA;
   
-  --text-main: hsl(210, 40%, 98%);
-  --text-muted: hsl(215, 20%, 65%);
-  --text-inverse: hsl(222, 47%, 7%);
+  /* Accent Colors (From Flyers) */
+  --accent-pink: #FF8FA3;
+  --accent-pink-hover: #FF758F;
+  --accent-pink-light: #FFF0F2;
   
-  --success: hsl(142, 76%, 45%);
-  --success-bg: rgba(22, 163, 74, 0.1);
-  --error: hsl(346, 84%, 61%);
-  --error-bg: rgba(220, 38, 38, 0.1);
+  --accent-yellow: #FFD166;
+  --accent-yellow-hover: #FFC300;
+  --accent-yellow-light: #FEF9EB;
   
-  /* Layout & Accents */
-  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
+  --accent-blue: #A2D2FF;
+  --accent-blue-hover: #BDE0FE;
+  --accent-blue-light: #F0F7FF;
+
+  --success: #06D6A0;
+  --success-light: #E6FBF5;
+  --error: #EF476F;
+  --error-light: #FFEBF0;
   
-  --transition-fast: 0.15s ease;
-  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Outline & Shadow Tokens (Cartoon/Comic style) */
+  --stroke-width: 3px;
+  --outline-color: var(--hnk-blue);
+  --thick-border: var(--stroke-width) solid var(--outline-color);
+  --card-shadow: 6px 6px 0px rgba(0, 62, 147, 0.15);
+  --button-shadow: 4px 4px 0px var(--outline-color);
   
-  /* Accent Colors for Native Form Elements */
-  accent-color: var(--color-primary);
+  /* Typography */
+  --font-display: 'Fredoka', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 26px;
+  
+  --transition-normal: 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy animation */
+  
+  /* Form elements accent color */
+  accent-color: var(--accent-pink);
 }
 
 /* Base resets */
@@ -47,11 +63,9 @@ html, body {
   width: 100%;
   min-height: 100vh;
   background-color: var(--bg-primary);
-  background-image: 
-    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%),
-    radial-gradient(at 50% 0%, hsla(271,91%,65%,0.15) 0, transparent 50%),
-    radial-gradient(at 100% 100%, hsla(186,100%,45%,0.08) 0, transparent 50%);
-  background-attachment: fixed;
+  /* Cute school dotted pattern */
+  background-image: radial-gradient(var(--hnk-blue-light) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
   color: var(--text-main);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -62,18 +76,18 @@ html, body {
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-secondary);
+  background: var(--accent-blue);
   border-radius: var(--radius-sm);
-  border: 2px solid var(--bg-primary);
+  border: 3px solid var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--card-border);
+  background: var(--hnk-blue);
 }
 
 /* Layout - Mobile First */
@@ -108,22 +122,23 @@ html, body {
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+  font-weight: 600;
+  line-height: 1.25;
 }
 
 h1 {
   font-size: 2.25rem;
+  color: var(--hnk-blue);
 }
 
 h2 {
   font-size: 1.75rem;
+  color: var(--hnk-blue);
 }
 
 @media (min-width: 768px) {
   h1 {
-    font-size: 3rem;
+    font-size: 2.75rem;
   }
   h2 {
     font-size: 2.25rem;
@@ -132,22 +147,22 @@ h2 {
 
 p {
   color: var(--text-muted);
+  font-weight: 500;
 }
 
-/* Premium Glass Cards */
+/* Playful Comic Panel Cards */
 .glass-panel {
   background: var(--card-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--card-border);
+  border: var(--thick-border);
   border-radius: var(--radius-lg);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  box-shadow: var(--card-shadow);
   overflow: hidden;
-  transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
 }
 
 .glass-panel:hover {
-  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 8px 8px 0px rgba(0, 62, 147, 0.2);
 }
 
 /* Inputs and Forms */
@@ -160,35 +175,34 @@ p {
 
 .form-label {
   font-family: var(--font-display);
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   font-weight: 600;
-  color: var(--text-main);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  color: var(--hnk-blue);
 }
 
 .form-control {
   width: 100%;
   padding: 0.875rem 1.25rem;
   font-family: var(--font-sans);
+  font-weight: 500;
   font-size: 1rem;
   color: var(--text-main);
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  border: 2px solid var(--text-muted);
   border-radius: var(--radius-md);
   outline: none;
-  transition: all var(--transition-fast);
+  transition: all var(--transition-normal);
 }
 
 .form-control:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px rgba(var(--color-primary-rgb), 0.2);
-  background: rgba(15, 23, 42, 0.8);
+  border-color: var(--hnk-blue);
+  box-shadow: 0 0 0 3px var(--hnk-blue-light);
+  background: var(--card-bg);
 }
 
 .form-control::placeholder {
   color: var(--text-muted);
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 .form-row {
@@ -203,19 +217,20 @@ p {
   }
 }
 
-/* Buttons */
+/* Playful Comic Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   padding: 0.875rem 1.5rem;
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   border-radius: var(--radius-md);
-  border: none;
+  border: var(--thick-border);
   cursor: pointer;
+  box-shadow: var(--button-shadow);
   transition: all var(--transition-normal);
   text-decoration: none;
   position: relative;
@@ -223,49 +238,41 @@ p {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-  color: var(--text-inverse);
-  box-shadow: 0 4px 20px rgba(var(--color-primary-rgb), 0.3);
-}
-
-.btn-primary::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-  opacity: 0;
-  transition: opacity var(--transition-fast);
+  background-color: var(--accent-yellow);
+  color: var(--hnk-blue);
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(var(--color-primary-rgb), 0.45);
-}
-
-.btn-primary:hover::after {
-  opacity: 1;
+  background-color: var(--accent-yellow-hover);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--outline-color);
 }
 
 .btn-primary:active {
-  transform: translateY(0);
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--outline-color);
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--card-border);
-  color: var(--text-main);
+  background-color: #FFFFFF;
+  color: var(--hnk-blue);
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+  background-color: var(--bg-secondary);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--outline-color);
+}
+
+.btn-secondary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--outline-color);
 }
 
 .btn:disabled {
-  opacity: 0.5;
+  background-color: #E2E8F0 !important;
+  color: #94A3B8 !important;
+  border-color: #94A3B8 !important;
   cursor: not-allowed;
   transform: none !important;
   box-shadow: none !important;
@@ -275,7 +282,7 @@ p {
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -284,7 +291,7 @@ p {
 }
 
 .animate-fade-in {
-  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 @keyframes spin {
@@ -292,20 +299,20 @@ p {
 }
 
 .spinner {
-  width: 24px;
-  height: 24px;
-  border: 3px solid rgba(255, 255, 255, 0.1);
+  width: 32px;
+  height: 32px;
+  border: 4px solid var(--hnk-blue-light);
   border-radius: 50%;
-  border-top-color: var(--color-primary);
+  border-top-color: var(--accent-pink);
   animation: spin 0.8s linear infinite;
 }
 
-/* Progress Tracker */
+/* Steps Tracker Navigation (Playful style) */
 .steps-tracker {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   margin-bottom: 2.5rem;
 }
 
@@ -316,52 +323,50 @@ p {
 }
 
 .step-num {
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-display);
   font-weight: 700;
-  background: var(--bg-secondary);
-  border: 2px solid var(--card-border);
-  color: var(--text-muted);
+  font-size: 1.1rem;
+  background: #FFFFFF;
+  border: var(--thick-border);
+  color: var(--hnk-blue);
+  box-shadow: 2px 2px 0px rgba(0, 62, 147, 0.15);
   transition: all var(--transition-normal);
 }
 
 .step-num.active {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
+  background: var(--accent-pink);
   color: var(--text-inverse);
-  box-shadow: 0 0 16px rgba(var(--color-primary-rgb), 0.4);
+  box-shadow: 3px 3px 0px var(--outline-color);
+  transform: scale(1.1);
 }
 
 .step-num.completed {
   background: var(--success);
-  border-color: var(--success);
-  color: var(--text-main);
+  color: var(--text-inverse);
 }
 
 .step-label {
   font-family: var(--font-display);
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--text-muted);
 }
 
 .step-indicator.active .step-label {
-  color: var(--text-main);
+  color: var(--hnk-blue);
 }
 
 .step-line {
-  height: 2px;
-  width: 48px;
-  background: var(--card-border);
-}
-
-.step-line.active {
-  background: linear-gradient(90deg, var(--color-primary), var(--card-border));
+  height: 4px;
+  width: 40px;
+  background: var(--hnk-blue);
+  border-radius: 2px;
 }
 
 /* Visually Hidden Utility for A11y */
@@ -375,4 +380,37 @@ p {
   padding: 0 !important;
   border: 0 !important;
   white-space: nowrap !important;
+}
+
+/* Decorative Blossom/Flower shapes or banner elements */
+.badge-delicioso {
+  display: inline-block;
+  background-color: var(--accent-pink);
+  color: var(--text-inverse);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--hnk-blue);
+  box-shadow: 2px 2px 0px var(--hnk-blue);
+  transform: rotate(-3deg);
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+.banner-escolar {
+  text-align: center;
+  background-color: var(--accent-blue-light);
+  border: var(--thick-border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  margin-bottom: 2rem;
+  font-family: var(--font-display);
+  color: var(--hnk-blue);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }

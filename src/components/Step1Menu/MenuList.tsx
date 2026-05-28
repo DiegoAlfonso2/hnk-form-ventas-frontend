@@ -11,9 +11,17 @@ interface MenuListProps {
 export const MenuList: React.FC<MenuListProps> = ({ quantities, onQuantityChange }) => {
   return (
     <section className="animate-fade-in">
-      <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-        <Utensils size={20} style={{ color: 'var(--color-primary)' }} />
-        Nuestra Carta
+      <h3 style={{ 
+        fontFamily: 'var(--font-display)', 
+        fontSize: '1.4rem', 
+        marginBottom: '1.5rem', 
+        display: 'flex', 
+        alignItems: 'center', 
+        gap: '0.5rem',
+        color: 'var(--hnk-blue)'
+      }}>
+        <Utensils size={22} style={{ color: 'var(--accent-pink)' }} />
+        Menú de Platos
       </h3>
       
       <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.25rem' }}>
@@ -29,16 +37,17 @@ export const MenuList: React.FC<MenuListProps> = ({ quantities, onQuantityChange
                   width: '70px', 
                   height: '70px', 
                   background: item.imageColor, 
-                  borderRadius: '12px',
+                  borderRadius: '16px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
                   fontWeight: 800,
-                  fontSize: '1.5rem',
+                  fontSize: '1.6rem',
                   fontFamily: 'var(--font-display)',
                   flexShrink: 0,
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
+                  border: '2px solid var(--hnk-blue)',
+                  boxShadow: '2px 2px 0px var(--hnk-blue)'
                 }}>
                   {item.name.charAt(0)}
                 </div>
@@ -46,19 +55,21 @@ export const MenuList: React.FC<MenuListProps> = ({ quantities, onQuantityChange
                 {/* Info */}
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
-                    <h4 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-main)', fontFamily: 'var(--font-display)' }}>
+                    <h4 style={{ fontSize: '1.15rem', fontWeight: 600, color: 'var(--text-main)', fontFamily: 'var(--font-display)' }}>
                       {item.name}
+                      {item.id === 'lasagna' && <span className="badge-delicioso">¡Más Pedido! ⭐️</span>}
+                      {item.id === 'sorrentinos' && <span className="badge-delicioso">¡El Favorito! 🌸</span>}
                     </h4>
                     <span style={{ 
-                      fontSize: '1.1rem', 
+                      fontSize: '1.2rem', 
                       fontWeight: 700, 
-                      color: 'var(--color-primary)', 
+                      color: 'var(--hnk-blue)', 
                       fontFamily: 'var(--font-display)' 
                     }}>
                       ${item.price.toLocaleString('es-AR')}
                     </span>
                   </div>
-                  <p style={{ fontSize: '0.875rem', lineHeight: '1.4', margin: 0, color: 'var(--text-muted)' }}>
+                  <p style={{ fontSize: '0.9rem', lineHeight: '1.4', margin: 0, color: 'var(--text-muted)' }}>
                     {item.description}
                   </p>
                 </div>
@@ -66,14 +77,14 @@ export const MenuList: React.FC<MenuListProps> = ({ quantities, onQuantityChange
 
               {/* Bottom Actions Area */}
               <div style={{ 
-                borderTop: '1px solid var(--card-border)', 
-                background: 'rgba(0,0,0,0.15)', 
+                borderTop: '2px solid var(--hnk-blue)', 
+                background: 'var(--bg-secondary)', 
                 padding: '0.75rem 1.25rem', 
                 display: 'flex', 
                 justifyContent: 'space-between', 
                 alignItems: 'center' 
               }}>
-                <span style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', fontWeight: 600 }}>
+                <span style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--hnk-blue)', fontWeight: 700, fontFamily: 'var(--font-display)' }}>
                   Porciones
                 </span>
 
@@ -84,13 +95,14 @@ export const MenuList: React.FC<MenuListProps> = ({ quantities, onQuantityChange
                     onClick={() => onQuantityChange(item.id, -1)}
                     disabled={qty === 0}
                     style={{ 
-                      width: '32px', 
-                      height: '32px', 
+                      width: '34px', 
+                      height: '34px', 
                       padding: 0, 
                       borderRadius: '50%', 
                       display: 'flex', 
                       alignItems: 'center', 
-                      justifyContent: 'center' 
+                      justifyContent: 'center',
+                      boxShadow: qty === 0 ? 'none' : '2px 2px 0px var(--hnk-blue)'
                     }}
                     aria-label={`Quitar porción de ${item.name}`}
                   >
@@ -100,10 +112,10 @@ export const MenuList: React.FC<MenuListProps> = ({ quantities, onQuantityChange
                   <span style={{ 
                     fontFamily: 'var(--font-display)', 
                     fontWeight: 700, 
-                    fontSize: '1.1rem', 
-                    minWidth: '24px', 
+                    fontSize: '1.25rem', 
+                    minWidth: '28px', 
                     textAlign: 'center',
-                    color: qty > 0 ? 'var(--color-primary)' : 'var(--text-muted)'
+                    color: qty > 0 ? 'var(--accent-pink)' : 'var(--text-muted)'
                   }}>
                     {qty}
                   </span>
@@ -113,13 +125,14 @@ export const MenuList: React.FC<MenuListProps> = ({ quantities, onQuantityChange
                     className="btn btn-secondary"
                     onClick={() => onQuantityChange(item.id, 1)}
                     style={{ 
-                      width: '32px', 
-                      height: '32px', 
+                      width: '34px', 
+                      height: '34px', 
                       padding: 0, 
                       borderRadius: '50%', 
                       display: 'flex', 
                       alignItems: 'center', 
-                      justifyContent: 'center' 
+                      justifyContent: 'center',
+                      boxShadow: '2px 2px 0px var(--hnk-blue)'
                     }}
                     aria-label={`Agregar porción de ${item.name}`}
                   >

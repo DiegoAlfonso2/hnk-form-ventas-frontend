@@ -125,63 +125,88 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
     <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }} className="animate-fade-in">
       {/* Success Title Header */}
       <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(22, 163, 74, 0.1)', color: 'var(--success)', borderRadius: '50%', padding: '1rem', marginBottom: '1rem', border: '1px solid rgba(22, 163, 74, 0.2)' }}>
-          <CheckCircle size={40} />
+        <div style={{ 
+          display: 'inline-flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          background: 'var(--success-light)', 
+          color: 'var(--success)', 
+          borderRadius: '50%', 
+          padding: '1.2rem', 
+          marginBottom: '1rem', 
+          border: '3px solid var(--success)',
+          boxShadow: '3px 3px 0px rgba(0,0,0,0.1)'
+        }}>
+          <CheckCircle size={44} />
         </div>
-        <h2 style={{ fontFamily: 'var(--font-display)', marginBottom: '0.5rem' }}>Pedido Confirmado</h2>
-        <p style={{ fontSize: '1rem' }}>
-          Reserva <strong style={{ color: 'var(--color-primary)' }}>#{orderNumber}</strong> creada exitosamente.
+        <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--hnk-blue)', marginBottom: '0.5rem', fontSize: '2rem' }}>Pedido Confirmado</h2>
+        <p style={{ fontSize: '1.05rem', fontWeight: 600 }}>
+          Reserva <strong style={{ color: 'var(--accent-pink)', fontSize: '1.25rem', fontFamily: 'var(--font-display)' }}>#{orderNumber}</strong> creada exitosamente.
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }} className="payment-layout">
         {/* Left Side: Bank Details and File Upload */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           
           {/* Bank details instruction card */}
           <div className="glass-panel" style={{ padding: '1.5rem' }}>
-            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-main)' }}>
-              <Building size={18} style={{ color: 'var(--color-primary)' }} />
+            <h3 style={{ 
+              fontFamily: 'var(--font-display)', 
+              fontSize: '1.25rem', 
+              marginBottom: '1.25rem', 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '0.5rem', 
+              color: 'var(--hnk-blue)' 
+            }}>
+              <Building size={20} style={{ color: 'var(--accent-pink)' }} />
               1. Transferir el Total
             </h3>
             
-            <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1rem', borderRadius: '12px', border: '1px solid var(--card-border)', marginBottom: '1.25rem' }}>
+            <div style={{ 
+              background: 'var(--accent-yellow-light)', 
+              padding: '1.25rem', 
+              borderRadius: '18px', 
+              border: '2.5px solid var(--accent-yellow)', 
+              marginBottom: '1.25rem' 
+            }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Monto exacto a transferir:</span>
-                <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', fontWeight: 800, color: 'var(--color-primary)' }}>
+                <span style={{ fontSize: '0.95rem', color: 'var(--text-main)', fontWeight: 600 }}>Monto exacto a transferir:</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 800, color: 'var(--hnk-blue)' }}>
                   ${total.toLocaleString('es-AR')}
                 </span>
               </div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.9rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.95rem' }}>
                 <div>
-                  <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Titular</span>
-                  <span style={{ fontWeight: 600 }}>{bankDetails.titular}</span>
+                  <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>Titular</span>
+                  <span style={{ fontWeight: 700, color: 'var(--text-main)' }}>{bankDetails.titular}</span>
                 </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.9rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.95rem' }}>
                 <div>
-                  <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Banco</span>
-                  <span style={{ fontWeight: 600 }}>{bankDetails.banco}</span>
+                  <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>Banco</span>
+                  <span style={{ fontWeight: 700, color: 'var(--text-main)' }}>{bankDetails.banco}</span>
                 </div>
               </div>
 
-              <hr style={{ border: 0, borderTop: '1px solid var(--card-border)' }} />
+              <hr style={{ border: 0, borderTop: '2px solid var(--hnk-blue-light)' }} />
 
               {/* Alias Field */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.9rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.95rem' }}>
                 <div>
-                  <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>ALIAS</span>
-                  <span style={{ fontFamily: 'monospace', fontWeight: 600, fontSize: '0.95rem', color: 'var(--color-primary)' }}>{bankDetails.alias}</span>
+                  <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>ALIAS</span>
+                  <span style={{ fontFamily: 'monospace', fontWeight: 700, fontSize: '1rem', color: 'var(--hnk-blue)' }}>{bankDetails.alias}</span>
                 </div>
                 <button
                   type="button"
                   className="btn btn-secondary"
                   onClick={() => copyToClipboard(bankDetails.alias, 'alias')}
-                  style={{ padding: '0.5rem', borderRadius: '8px' }}
+                  style={{ padding: '0.5rem', borderRadius: '10px', boxShadow: '2px 2px 0px var(--hnk-blue)' }}
                   title="Copiar Alias"
                 >
                   {copiedField === 'alias' ? <Check size={16} style={{ color: 'var(--success)' }} /> : <Copy size={16} />}
@@ -189,16 +214,16 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
               </div>
 
               {/* CBU Field */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.9rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.95rem' }}>
                 <div>
-                  <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>CBU</span>
-                  <span style={{ fontFamily: 'monospace', fontWeight: 600, fontSize: '0.95rem', color: 'var(--color-primary)' }}>{bankDetails.cbu}</span>
+                  <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>CBU</span>
+                  <span style={{ fontFamily: 'monospace', fontWeight: 700, fontSize: '0.95rem', color: 'var(--hnk-blue)' }}>{bankDetails.cbu}</span>
                 </div>
                 <button
                   type="button"
                   className="btn btn-secondary"
                   onClick={() => copyToClipboard(bankDetails.cbu, 'cbu')}
-                  style={{ padding: '0.5rem', borderRadius: '8px' }}
+                  style={{ padding: '0.5rem', borderRadius: '10px', boxShadow: '2px 2px 0px var(--hnk-blue)' }}
                   title="Copiar CBU"
                 >
                   {copiedField === 'cbu' ? <Check size={16} style={{ color: 'var(--success)' }} /> : <Copy size={16} />}
@@ -209,9 +234,17 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
 
           {/* Upload card */}
           <div className="glass-panel" style={{ padding: '1.5rem' }}>
-            <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-main)' }}>
-              <UploadCloud size={18} style={{ color: 'var(--color-primary)' }} />
-              2. Subir Comprobante de Pago
+            <h3 style={{ 
+              fontFamily: 'var(--font-display)', 
+              fontSize: '1.25rem', 
+              marginBottom: '1.25rem', 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '0.5rem', 
+              color: 'var(--hnk-blue)' 
+            }}>
+              <UploadCloud size={20} style={{ color: 'var(--accent-pink)' }} />
+              2. Subir Comprobante
             </h3>
 
             {/* Drag & Drop Zone */}
@@ -223,12 +256,12 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
                 onDrop={handleDrop}
                 onClick={triggerFileSelect}
                 style={{
-                  border: `2px dashed ${dragActive ? 'var(--color-primary)' : 'var(--card-border)'}`,
-                  borderRadius: '16px',
-                  padding: '2rem 1.5rem',
+                  border: `3px dashed ${dragActive ? 'var(--accent-pink)' : 'var(--text-muted)'}`,
+                  borderRadius: '20px',
+                  padding: '2.5rem 1.5rem',
                   textAlign: 'center',
                   cursor: 'pointer',
-                  background: dragActive ? 'rgba(0, 229, 255, 0.05)' : 'rgba(0,0,0,0.1)',
+                  background: dragActive ? 'var(--accent-blue-light)' : 'var(--bg-secondary)',
                   transition: 'all var(--transition-normal)',
                   marginBottom: '1rem'
                 }}
@@ -240,14 +273,14 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
                   onChange={handleFileChange}
                   accept="image/png, image/jpeg, image/jpg, application/pdf"
                 />
-                <UploadCloud size={42} style={{ color: dragActive ? 'var(--color-primary)' : 'var(--text-muted)', marginBottom: '0.75rem', opacity: 0.8 }} />
-                <p style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: '0.25rem' }}>
-                  {dragActive ? 'Suelte el archivo aquí' : 'Arrastre aquí su comprobante'}
+                <UploadCloud size={48} style={{ color: dragActive ? 'var(--accent-pink)' : 'var(--hnk-blue)', marginBottom: '0.75rem', opacity: 0.8 }} />
+                <p style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '0.25rem', fontFamily: 'var(--font-display)' }}>
+                  {dragActive ? '¡Suéltalo aquí!' : 'Arrastra aquí tu comprobante'}
                 </p>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                  O haga click para buscar en su dispositivo
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                  O haz clic para buscar en tu dispositivo
                 </p>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.75rem', opacity: 0.7 }}>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.75rem', opacity: 0.8, fontWeight: 500 }}>
                   Formatos soportados: PNG, JPG, PDF (Máx 5MB)
                 </p>
               </div>
@@ -255,7 +288,18 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
 
             {/* Error state */}
             {uploadStatus === 'error' && (
-              <div style={{ display: 'flex', gap: '0.5rem', background: 'var(--error-bg)', border: '1px solid var(--error)', borderRadius: '12px', padding: '0.75rem', fontSize: '0.85rem', color: 'var(--text-main)', marginBottom: '1rem' }}>
+              <div style={{ 
+                display: 'flex', 
+                gap: '0.5rem', 
+                background: 'var(--error-light)', 
+                border: '2px solid var(--error)', 
+                borderRadius: '16px', 
+                padding: '0.85rem', 
+                fontSize: '0.85rem', 
+                color: 'var(--text-main)', 
+                marginBottom: '1rem',
+                fontWeight: 600
+              }}>
                 <AlertCircle size={18} style={{ color: 'var(--error)', flexShrink: 0 }} />
                 <span>Formato de archivo no válido. Solo se admiten imágenes (PNG, JPG) o archivos PDF.</span>
               </div>
@@ -263,23 +307,23 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
 
             {/* Selected File Details */}
             {voucherFile && (
-              <div className="glass-panel" style={{ padding: '1rem', background: 'rgba(255,255,255,0.02)', marginBottom: '1.25rem' }}>
+              <div className="glass-panel" style={{ padding: '1rem', background: 'var(--accent-blue-light)', marginBottom: '1.25rem', borderColor: 'var(--accent-blue)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', overflow: 'hidden' }}>
                     {voucherFile.type === 'application/pdf' ? (
-                      <div style={{ padding: '0.5rem', background: 'rgba(220, 38, 38, 0.1)', color: 'var(--error)', borderRadius: '8px' }}>
+                      <div style={{ padding: '0.5rem', background: 'var(--error-light)', color: 'var(--error)', borderRadius: '10px', border: '1.5px solid var(--error)' }}>
                         <FileText size={24} />
                       </div>
                     ) : (
-                      <div style={{ padding: '0.5rem', background: 'rgba(0, 229, 255, 0.1)', color: 'var(--color-primary)', borderRadius: '8px' }}>
+                      <div style={{ padding: '0.5rem', background: 'var(--hnk-blue-light)', color: 'var(--hnk-blue)', borderRadius: '10px', border: '1.5px solid var(--hnk-blue)' }}>
                         <ImageIcon size={24} />
                       </div>
                     )}
                     <div style={{ overflow: 'hidden' }}>
-                      <p style={{ fontSize: '0.9rem', fontWeight: 600, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', color: 'var(--text-main)' }}>
+                      <p style={{ fontSize: '0.9rem', fontWeight: 700, textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', color: 'var(--text-main)' }}>
                         {voucherFile.name}
                       </p>
-                      <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                      <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>
                         {formatFileSize(voucherFile.size)}
                       </p>
                     </div>
@@ -290,7 +334,7 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
                       type="button"
                       className="btn"
                       onClick={removeFile}
-                      style={{ padding: '0.5rem', background: 'rgba(220, 38, 38, 0.1)', color: 'var(--error)', border: 0 }}
+                      style={{ padding: '0.5rem', background: 'var(--error-light)', color: 'var(--error)', border: '2px solid var(--error)', boxShadow: 'none' }}
                       title="Eliminar archivo"
                     >
                       <Trash2 size={16} />
@@ -313,12 +357,12 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
                 {/* Uploading progress bar state */}
                 {uploadStatus === 'uploading' && (
                   <div style={{ marginTop: '1rem' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.25rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.25rem', fontWeight: 600 }}>
                       <span>Subiendo comprobante...</span>
                       <span>{uploadProgress}%</span>
                     </div>
-                    <div style={{ height: '6px', background: 'rgba(255,255,255,0.05)', borderRadius: '3px', overflow: 'hidden' }}>
-                      <div style={{ height: '100%', width: `${uploadProgress}%`, background: 'var(--color-primary)', transition: 'width 0.2s ease' }} />
+                    <div style={{ height: '8px', background: '#E2E8F0', borderRadius: '4px', overflow: 'hidden', border: '1.5px solid var(--hnk-blue)' }}>
+                      <div style={{ height: '100%', width: `${uploadProgress}%`, background: 'var(--accent-pink)', transition: 'width 0.2s ease' }} />
                     </div>
                   </div>
                 )}
@@ -328,11 +372,21 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
             {/* Success uploaded state */}
             {uploadStatus === 'success' && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', textAlign: 'center', padding: '1rem 0' }}>
-                <div style={{ display: 'flex', gap: '0.75rem', background: 'var(--success-bg)', border: '1px solid var(--success)', borderRadius: '12px', padding: '1rem', fontSize: '0.9rem', color: 'var(--text-main)', alignItems: 'center' }}>
-                  <CheckCircle size={20} style={{ color: 'var(--success)', flexShrink: 0 }} />
+                <div style={{ 
+                  display: 'flex', 
+                  gap: '0.75rem', 
+                  background: 'var(--success-light)', 
+                  border: '2px solid var(--success)', 
+                  borderRadius: '16px', 
+                  padding: '1.25rem', 
+                  fontSize: '0.95rem', 
+                  color: 'var(--text-main)', 
+                  alignItems: 'center' 
+                }}>
+                  <CheckCircle size={24} style={{ color: 'var(--success)', flexShrink: 0 }} />
                   <div style={{ textAlign: 'left' }}>
-                    <strong style={{ display: 'block', color: 'var(--success)' }}>Comprobante Enviado</strong>
-                    <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Nuestro equipo validará tu pago a la brevedad. Recibirás confirmación por email/WhatsApp.</span>
+                    <strong style={{ display: 'block', color: 'var(--success)', fontFamily: 'var(--font-display)', fontSize: '1.1rem' }}>¡Comprobante Enviado!</strong>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>El equipo de Haha No Kai validará tu pago. Recibirás tu confirmación pronto.</span>
                   </div>
                 </div>
                 
@@ -342,7 +396,7 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
                   onClick={onOrderCompleted}
                   style={{ width: '100%', padding: '1rem' }}
                 >
-                  Entendido / Volver al Inicio
+                  Volver al Inicio
                 </button>
               </div>
             )}
@@ -351,56 +405,56 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
 
         {/* Right Side: Order Summary Details */}
         <div className="glass-panel" style={{ padding: '1.5rem', height: 'fit-content' }}>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', marginBottom: '1.25rem', color: 'var(--text-main)' }}>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', marginBottom: '1.25rem', color: 'var(--hnk-blue)' }}>
             Detalle del Pedido
           </h3>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', fontSize: '0.9rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', fontSize: '0.95rem' }}>
             
             {/* Customer Details */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Cliente</span>
-              <span style={{ fontWeight: 600 }}>{contact.name}</span>
-              <span style={{ color: 'var(--text-muted)' }}>{contact.phone}</span>
-              <span style={{ color: 'var(--text-muted)' }}>{contact.email}</span>
+              <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>Cliente</span>
+              <span style={{ fontWeight: 700, color: 'var(--text-main)' }}>{contact.name}</span>
+              <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>{contact.phone}</span>
+              <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>{contact.email}</span>
             </div>
 
             {/* Delivery/Pickup Details */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Método de Entrega</span>
-              <span style={{ fontWeight: 600 }}>
+              <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>Entrega</span>
+              <span style={{ fontWeight: 700, color: 'var(--text-main)' }}>
                 {contact.deliveryType === 'delivery' ? 'Envío a Domicilio' : 'Retiro en Local'}
               </span>
-              <span style={{ color: 'var(--text-muted)' }}>
-                {contact.deliveryType === 'delivery' ? contact.address : 'Calle Ficticia 456, CABA'}
+              <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>
+                {contact.deliveryType === 'delivery' ? contact.address : 'Colegio HNK - Ingreso por Pringles 268'}
               </span>
             </div>
 
-            <hr style={{ border: 0, borderTop: '1px solid var(--card-border)' }} />
+            <hr style={{ border: 0, borderTop: '2px solid var(--hnk-blue-light)' }} />
 
             {/* Selected Items */}
             <div>
-              <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>
+              <span style={{ display: 'block', fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem', fontWeight: 700 }}>
                 Platos
               </span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {cartItems.map(item => (
-                  <div key={item.menuItem.id} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div key={item.menuItem.id} style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 500 }}>
                     <span>
-                      <strong style={{ color: 'var(--color-primary)' }}>{item.quantity}</strong>x {item.menuItem.name}
+                      <strong style={{ color: 'var(--accent-pink)' }}>{item.quantity}</strong>x {item.menuItem.name}
                     </span>
-                    <span>${(item.menuItem.price * item.quantity).toLocaleString('es-AR')}</span>
+                    <span style={{ fontWeight: 700 }}>${(item.menuItem.price * item.quantity).toLocaleString('es-AR')}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <hr style={{ border: 0, borderTop: '1px solid var(--card-border)' }} />
+            <hr style={{ border: 0, borderTop: '2px solid var(--hnk-blue-light)' }} />
 
             {/* Total Paid */}
-            <div style={{ display: 'flex', justifySelf: 'flex-end', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700 }}>Total</span>
-              <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.2rem', fontWeight: 800, color: 'var(--color-primary)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, color: 'var(--hnk-blue)', fontSize: '1.1rem' }}>Total</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 800, color: 'var(--accent-pink)' }}>
                 ${total.toLocaleString('es-AR')}
               </span>
             </div>
@@ -414,12 +468,24 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
           type="button"
           className="btn btn-secondary"
           onClick={onBack}
-          style={{ width: 'fit-content', margin: '1rem auto 0 auto' }}
+          style={{ width: 'fit-content', margin: '1rem auto 0 auto', padding: '0.75rem 1.25rem' }}
         >
           <ArrowLeft size={16} />
           Volver a editar pedido
         </button>
       )}
+
+      <style>{`
+        .payment-layout {
+          grid-template-columns: 1fr;
+        }
+        @media (min-width: 1024px) {
+          .payment-layout {
+            grid-template-columns: 60% 40%;
+            align-items: start;
+          }
+        }
+      `}</style>
     </div>
   );
 };

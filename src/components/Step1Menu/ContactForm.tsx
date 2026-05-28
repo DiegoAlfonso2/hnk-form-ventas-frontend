@@ -19,8 +19,16 @@ export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange }) =
 
   return (
     <section className="glass-panel animate-fade-in" style={{ padding: '1.5rem', height: '100%' }}>
-      <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.25rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-        <User size={20} style={{ color: 'var(--color-primary)' }} />
+      <h3 style={{ 
+        fontFamily: 'var(--font-display)', 
+        fontSize: '1.4rem', 
+        marginBottom: '1.5rem', 
+        display: 'flex', 
+        alignItems: 'center', 
+        gap: '0.5rem',
+        color: 'var(--hnk-blue)'
+      }}>
+        <User size={22} style={{ color: 'var(--accent-pink)' }} />
         Datos de Contacto
       </h3>
 
@@ -38,7 +46,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange }) =
             required
             style={{ paddingLeft: '2.75rem' }}
           />
-          <User size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.6 }} />
+          <User size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.8 }} />
         </div>
       </div>
 
@@ -57,7 +65,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange }) =
               required
               style={{ paddingLeft: '2.75rem' }}
             />
-            <Phone size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.6 }} />
+            <Phone size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.8 }} />
           </div>
         </div>
 
@@ -75,7 +83,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange }) =
               required
               style={{ paddingLeft: '2.75rem' }}
             />
-            <Mail size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.6 }} />
+            <Mail size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.8 }} />
           </div>
         </div>
       </div>
@@ -119,17 +127,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange }) =
               required
               style={{ paddingLeft: '2.75rem' }}
             />
-            <MapPin size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.6 }} />
+            <MapPin size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.8 }} />
           </div>
         </div>
       ) : (
-        <div className="glass-panel animate-fade-in" style={{ padding: '1rem', background: 'rgba(255,255,255,0.02)', marginBottom: '1.25rem', borderStyle: 'dashed' }}>
-          <p style={{ fontSize: '0.875rem', color: 'var(--text-main)', display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-            <Store size={16} style={{ color: 'var(--color-primary)', marginTop: '0.125rem', flexShrink: 0 }} />
+        <div className="glass-panel animate-fade-in" style={{ padding: '1rem', background: 'var(--bg-secondary)', marginBottom: '1.25rem', borderStyle: 'dashed' }}>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-main)', display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
+            <Store size={18} style={{ color: 'var(--accent-pink)', marginTop: '0.125rem', flexShrink: 0 }} />
             <span>
-              <strong>Punto de retiro:</strong> Calle Ficticia 456, Palermo, CABA.
+              <strong>Punto de retiro:</strong> Ingreso por Pringles 268 (Colegio HNK).
               <br />
-              <span style={{ color: 'var(--text-muted)' }}>Horario: Sábados y Domingos de 12:00 a 22:00 hs.</span>
+              <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>Horario: Sábado 06 de Junio a partir de las 13:00 hs.</span>
             </span>
           </p>
         </div>
@@ -142,13 +150,13 @@ export const ContactForm: React.FC<ContactFormProps> = ({ contact, onChange }) =
             id="notes"
             name="notes"
             className="form-control"
-            placeholder="Aclaraciones sobre alergias, indicaciones para el timbre, etc..."
+            placeholder="Aclaraciones sobre alergias, indicaciones para retirar, etc..."
             value={contact.notes}
             onChange={handleChange}
             rows={3}
             style={{ paddingLeft: '2.75rem', resize: 'none' }}
           />
-          <MessageSquare size={18} style={{ position: 'absolute', left: '1rem', top: '1rem', color: 'var(--text-muted)', opacity: 0.6 }} />
+          <MessageSquare size={18} style={{ position: 'absolute', left: '1rem', top: '1rem', color: 'var(--text-muted)', opacity: 0.8 }} />
         </div>
       </div>
     </section>

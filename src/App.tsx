@@ -4,7 +4,7 @@ import { ContactForm } from './components/Step1Menu/ContactForm';
 import { MenuList } from './components/Step1Menu/MenuList';
 import { CartSummary } from './components/Step1Menu/CartSummary';
 import { PaymentSection } from './components/Step2Pay/PaymentSection';
-import { ChefHat } from 'lucide-react';
+import { HnkLogo } from './components/ui/HnkLogo';
 
 function App() {
   const {
@@ -56,35 +56,22 @@ function App() {
       {/* Brand Header */}
       <header style={{ 
         display: 'flex', 
+        flexDirection: 'column',
         alignItems: 'center', 
         justifyContent: 'center', 
-        gap: '0.75rem', 
-        marginBottom: '2rem',
+        gap: '0.5rem', 
+        marginBottom: '1.5rem',
         marginTop: '0.5rem'
       }}>
-        <div style={{ 
-          background: 'linear-gradient(135deg, var(--color-primary), var(--color-accent))',
-          padding: '0.6rem',
-          borderRadius: '12px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: 'var(--text-inverse)',
-          boxShadow: '0 4px 16px rgba(0, 229, 255, 0.2)'
-        }}>
-          <ChefHat size={28} />
-        </div>
-        <h1 style={{ 
-          fontSize: '1.75rem', 
-          background: 'linear-gradient(to right, var(--text-main), var(--text-muted))',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          fontFamily: 'var(--font-display)',
-          fontWeight: 800
-        }}>
-          HNK Rotisería
-        </h1>
+        <HnkLogo width={140} height={120} />
       </header>
+
+      {/* School Festival Event Banner */}
+      <div className="banner-escolar">
+        <span>🌸</span>
+        <span><strong>¡KARAOKE 2026!</strong> Preventa de Comida - Sábado 06 de Junio</span>
+        <span>🎤</span>
+      </div>
 
       {/* Steps Tracker Navigation */}
       <div className="steps-tracker">
