@@ -27,15 +27,15 @@ export const MenuList: React.FC<MenuListProps> = ({ menuItems = [], quantities, 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.25rem' }}>
         {[...menuItems]
           .sort((a, b) => {
-            const aOutOfStock = a.status === 'out_of_stock' || (a.stock !== null && a.stock <= 0);
-            const bOutOfStock = b.status === 'out_of_stock' || (b.stock !== null && b.stock <= 0);
+            const aOutOfStock = a.stock !== null && a.stock <= 0;
+            const bOutOfStock = b.stock !== null && b.stock <= 0;
             if (aOutOfStock && !bOutOfStock) return 1;
             if (!aOutOfStock && bOutOfStock) return -1;
             return a.displayOrder - b.displayOrder;
           })
           .map((item: MenuItem) => {
             const qty = quantities[item.id] || 0;
-            const isOutOfStock = item.status === 'out_of_stock' || (item.stock !== null && item.stock <= 0);
+            const isOutOfStock = item.stock !== null && item.stock <= 0;
             const isPlusDisabled = isOutOfStock || (item.stock !== null && qty >= item.stock);
             return (
               <div 

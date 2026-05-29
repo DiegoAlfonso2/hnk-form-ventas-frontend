@@ -16,7 +16,7 @@ export interface BackendMenuItem {
   description: string | null;
   price: number; // in cents
   stock: number | null;
-  status: 'available' | 'out_of_stock' | 'inactive';
+  status: 'available' | 'inactive';
   displayOrder: number;
   image?: string | null;
 }

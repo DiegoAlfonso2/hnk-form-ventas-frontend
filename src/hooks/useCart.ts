@@ -7,7 +7,7 @@ export interface MenuItem {
   price: number;
   imageColor: string; // Gradient color for beautiful cards
   image?: string | null; // Optional image filename
-  status: 'available' | 'out_of_stock' | 'inactive';
+  status: 'available' | 'inactive';
   stock: number | null;
   displayOrder: number;
 }
