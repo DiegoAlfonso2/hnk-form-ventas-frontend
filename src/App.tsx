@@ -99,7 +99,7 @@ function App() {
                 email: order.customerEmail,
                 classSection: order.classSection,
                 deliveryTimeSlot: '13-14', // Default placeholder Horario
-                notes: ''
+                notes: order.notes || ''
               },
               quantitiesMap
             );
@@ -135,7 +135,8 @@ function App() {
       if (isEditingExistingOrder) {
         // Edit flow
         const updatedOrder = await api.editOrder(orderId, {
-          items: itemsPayload
+          items: itemsPayload,
+          notes: contact.notes
         });
         setOrderNumber(updatedOrder.orderNumber);
       } else {
@@ -146,7 +147,8 @@ function App() {
           customerEmail: contact.email,
           customerPhone: contact.phone,
           classSection: contact.classSection,
-          items: itemsPayload
+          items: itemsPayload,
+          notes: contact.notes
         });
         
         setOrderId(createRes.order.id);

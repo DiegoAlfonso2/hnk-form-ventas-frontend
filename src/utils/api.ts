@@ -38,10 +38,12 @@ export interface CreateOrderPayload {
   customerPhone: string;
   classSection: string;
   items: OrderItemInput[];
+  notes?: string;
 }
 
 export interface EditOrderPayload {
   items: OrderItemInput[];
+  notes?: string;
 }
 
 export interface BackendOrder {
@@ -52,6 +54,7 @@ export interface BackendOrder {
   customerEmail: string;
   customerPhone: string;
   classSection: string;
+  notes?: string | null;
   totalPrice: number; // in cents
   totalPaid: number; // in cents
   status: 'pending_payment' | 'paid' | 'delivered' | 'cancelled';
