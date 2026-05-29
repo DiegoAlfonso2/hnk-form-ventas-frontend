@@ -80,7 +80,6 @@ function App() {
         if (urlOrderId) {
           setOrderId(urlOrderId);
           setIsEditingExistingOrder(true);
-          setStep(2);
 
           try {
             const order = await api.getOrder(urlOrderId);
@@ -103,6 +102,13 @@ function App() {
               },
               quantitiesMap
             );
+
+            // Redirect based on order status
+            if (order.status === 'pending_payment') {
+              setStep(2);
+            } else {
+              setStep(3);
+            }
           } catch (orderErr) {
             console.error("Error retrieving order details via UUID link", orderErr);
             // Clear invalid URL parameter and reset step
