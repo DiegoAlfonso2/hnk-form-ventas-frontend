@@ -25,10 +25,31 @@ export const MenuList: React.FC<MenuListProps> = ({ menuItems = [], quantities, 
       </h3>
       
       <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.25rem' }}>
-        {menuItems.map((item: MenuItem) => {
-          const qty = quantities[item.id] || 0;
-          return (
-            <div key={item.id} className="glass-panel" style={{ display: 'flex', flexDirection: 'column', minHeight: '140px', transition: 'all var(--transition-normal)' }}>
+        {[...menuItems]
+          .sort((a, b) => {
+            const aOutOfStock = a.status === 'out_of_stock' || (a.stock !== null && a.stock <= 0);
+            const bOutOfStock = b.status === 'out_of_stock' || (b.stock !== null && b.stock <= 0);
+            if (aOutOfStock && !bOutOfStock) return 1;
+            if (!aOutOfStock && bOutOfStock) return -1;
+            return a.displayOrder - b.displayOrder;
+          })
+          .map((item: MenuItem) => {
+            const qty = quantities[item.id] || 0;
+            const isOutOfStock = item.status === 'out_of_stock' || (item.stock !== null && item.stock <= 0);
+            const isPlusDisabled = isOutOfStock || (item.stock !== null && qty >= item.stock);
+            return (
+              <div 
+                key={item.id} 
+                className="glass-panel" 
+                style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  minHeight: '140px', 
+                  transition: 'all var(--transition-normal)',
+                  opacity: isOutOfStock ? 0.65 : 1,
+                  filter: isOutOfStock ? 'grayscale(80%)' : 'none'
+                }}
+              >
               
               {/* Card Banner / Header - Mobile responsive */}
               <div style={{ display: 'flex', flexDirection: 'row', flex: 1, padding: '1.25rem', gap: '1rem', alignItems: 'flex-start' }}>
@@ -55,10 +76,28 @@ export const MenuList: React.FC<MenuListProps> = ({ menuItems = [], quantities, 
                 {/* Info */}
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
-                    <h4 style={{ fontSize: '1.15rem', fontWeight: 600, color: 'var(--text-main)', fontFamily: 'var(--font-display)' }}>
+                    <h4 style={{ fontSize: '1.15rem', fontWeight: 600, color: 'var(--text-main)', fontFamily: 'var(--font-display)', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.25rem' }}>
                       {item.name}
                       {item.id === 'lasagna' && <span className="badge-delicioso">¡Más Pedido! ⭐️</span>}
                       {item.id === 'sorrentinos' && <span className="badge-delicioso">¡El Favorito! 🌸</span>}
+                      {isOutOfStock && (
+                        <span className="badge-sakura" style={{
+                          background: '#fff0f3',
+                          border: '1.5px solid #ffb7c5',
+                          color: '#ff4d6d',
+                          borderRadius: '8px',
+                          padding: '0.2rem 0.5rem',
+                          fontSize: '0.75rem',
+                          fontWeight: 700,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.25rem',
+                          boxShadow: '1px 1px 0px #ffb7c5',
+                          marginLeft: '0.5rem'
+                        }}>
+                          🌸 AGOTADO
+                        </span>
+                      )}
                     </h4>
                     <span style={{ 
                       fontSize: '1.2rem', 
@@ -124,6 +163,7 @@ export const MenuList: React.FC<MenuListProps> = ({ menuItems = [], quantities, 
                     type="button"
                     className="btn btn-secondary"
                     onClick={() => onQuantityChange(item.id, 1)}
+                    disabled={isPlusDisabled}
                     style={{ 
                       width: '34px', 
                       height: '34px', 
@@ -132,7 +172,9 @@ export const MenuList: React.FC<MenuListProps> = ({ menuItems = [], quantities, 
                       display: 'flex', 
                       alignItems: 'center', 
                       justifyContent: 'center',
-                      boxShadow: '2px 2px 0px var(--hnk-blue)'
+                      boxShadow: isPlusDisabled ? 'none' : '2px 2px 0px var(--hnk-blue)',
+                      opacity: isPlusDisabled ? 0.5 : 1,
+                      cursor: isPlusDisabled ? 'not-allowed' : 'pointer'
                     }}
                     aria-label={`Agregar porción de ${item.name}`}
                   >

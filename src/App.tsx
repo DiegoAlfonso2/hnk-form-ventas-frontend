@@ -56,6 +56,9 @@ function App() {
           description: item.description || '',
           price: item.price / 100,
           image: item.image,
+          status: item.status,
+          stock: item.stock,
+          displayOrder: item.displayOrder,
           imageColor: idx % 4 === 0 
             ? 'linear-gradient(135deg, #ff7b00, #ffae00)' 
             : idx % 4 === 1 
