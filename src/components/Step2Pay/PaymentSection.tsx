@@ -112,6 +112,9 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
       await onUploadVoucher(voucherFile);
       setUploadProgress(100);
       setUploadStatus('success');
+      setTimeout(() => {
+        onOrderCompleted();
+      }, 800);
     } catch (err) {
       console.error(err);
       setUploadStatus('error');
@@ -502,7 +505,7 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
         }
         @media (min-width: 768px) {
           .payment-grid {
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
           }
           .details-grid {
             grid-template-columns: 1fr 1.2fr;

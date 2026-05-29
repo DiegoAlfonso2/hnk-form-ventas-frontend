@@ -5,6 +5,7 @@ import { ContactForm } from './components/Step1Menu/ContactForm';
 import { MenuList } from './components/Step1Menu/MenuList';
 import { CartSummary } from './components/Step1Menu/CartSummary';
 import { PaymentSection } from './components/Step2Pay/PaymentSection';
+import { OrderConfirmed } from './components/Step3Confirm/OrderConfirmed';
 import { HnkLogo } from './components/ui/HnkLogo';
 import { api } from './utils/api';
 import type { BackendEvent, ClassSectionOption } from './utils/api';
@@ -15,7 +16,7 @@ function App() {
   const [currentEvent, setCurrentEvent] = useState<BackendEvent | null>(null);
   const [orderId, setOrderId] = useState<string>(''); // UUID of the order
   const [orderNumber, setOrderNumber] = useState<string>(''); // Readable PED-XXXXXX
-  const [step, setStep] = useState<1 | 2>(1);
+  const [step, setStep] = useState<1 | 2 | 3>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isEditingExistingOrder, setIsEditingExistingOrder] = useState<boolean>(false);
 
@@ -166,6 +167,11 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleGoToStep3 = () => {
+    setStep(3);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleOrderCompleted = () => {
     resetCart();
     setStep(1);
@@ -217,10 +223,19 @@ function App() {
         <div className={`step-line ${step > 1 ? 'active' : ''}`} />
         
         <div className={`step-indicator ${step >= 2 ? 'active' : ''}`}>
-          <div className={`step-num ${step === 2 ? 'active' : ''}`}>
-            2
+          <div className={`step-num ${step === 2 ? 'active' : step > 2 ? 'completed' : ''}`}>
+            {step > 2 ? '✓' : '2'}
           </div>
           <span className="step-label">Pago</span>
+        </div>
+
+        <div className={`step-line ${step > 2 ? 'active' : ''}`} />
+        
+        <div className={`step-indicator ${step >= 3 ? 'active' : ''}`}>
+          <div className={`step-num ${step === 3 ? 'active' : ''}`}>
+            3
+          </div>
+          <span className="step-label">Confirmación</span>
         </div>
       </div>
 
@@ -305,7 +320,7 @@ function App() {
               />
             </div>
           </div>
-        ) : (
+        ) : step === 2 ? (
           /* Step 2: Order receipt, Bank details, upload transfer voucher */
           <PaymentSection
             orderNumber={orderNumber}
@@ -313,8 +328,17 @@ function App() {
             cartItems={cartItems}
             total={total}
             onBack={handleBackToStep1}
-            onOrderCompleted={handleOrderCompleted}
+            onOrderCompleted={handleGoToStep3}
             onUploadVoucher={handleUploadVoucher}
+          />
+        ) : (
+          /* Step 3: Confirmation and withdrawal details */
+          <OrderConfirmed
+            orderNumber={orderNumber}
+            contact={contact}
+            cartItems={cartItems}
+            total={total}
+            onCompleted={handleOrderCompleted}
           />
         )}
       </main>
