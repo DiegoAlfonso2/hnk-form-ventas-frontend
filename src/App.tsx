@@ -357,7 +357,7 @@ function App() {
         color: 'var(--text-muted)',
         fontWeight: 500
       }}>
-        <p>&copy; {new Date().getFullYear()} HNK Rotisería Boutique. Todos los derechos reservados.</p>
+        <p>&copy; {new Date().getFullYear()} Haha No Kai. Todos los derechos reservados.</p>
         <p style={{ marginTop: '0.25rem', opacity: 0.7 }}>Desarrollado para el evento escolar Karaoke 2026.</p>
       </footer>
 

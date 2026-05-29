@@ -105,7 +105,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
 
       {/* Class Section Dropdown */}
       <div className="form-group" style={{ marginBottom: '1.25rem' }}>
-        <label htmlFor="classSection" className="form-label">Grado / Sala del Alumno {isReadOnlyContact && <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>(No editable)</span>}</label>
+        <label htmlFor="classSection" className="form-label">Sala / Grado / Año del Alumno (Seleccione hija/o mayor) {isReadOnlyContact && <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>(No editable)</span>}</label>
         <div style={{ position: 'relative' }}>
           <select
             id="classSection"
@@ -129,15 +129,6 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           </select>
           <GraduationCap size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', opacity: 0.8, pointerEvents: 'none' }} />
           <div style={{ position: 'absolute', right: '1.25rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--text-muted)', borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '6px solid currentColor' }} />
-        </div>
-      </div>
-
-      {/* Static Pickup Details Box */}
-      <div className="glass-panel" style={{ padding: '1rem', background: 'var(--hnk-blue-light)', marginBottom: '1.25rem', borderColor: 'var(--accent-blue)', display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-        <Store size={22} style={{ color: 'var(--hnk-blue)', flexShrink: 0, marginTop: '0.125rem' }} />
-        <div>
-          <strong style={{ fontFamily: 'var(--font-display)', color: 'var(--hnk-blue)', fontSize: '0.95rem', display: 'block' }}>Retiro de Pedidos</strong>
-          <span style={{ fontSize: '0.85rem', color: 'var(--text-main)', fontWeight: 600 }}>Todos los pedidos se retiran únicamente en el Colegio (Ingreso por Pringles 268) el Sábado 06 de Junio.</span>
         </div>
       </div>
 
@@ -181,6 +172,16 @@ export const ContactForm: React.FC<ContactFormProps> = ({
           <MessageSquare size={18} style={{ position: 'absolute', left: '1rem', top: '1rem', color: 'var(--text-muted)', opacity: 0.8 }} />
         </div>
       </div>
+
+      {/* Static Pickup Details Box */}
+      <div className="glass-panel" style={{ padding: '1rem', background: 'var(--hnk-blue-light)', marginTop: '1.25rem',marginBottom: '1.25rem', borderColor: 'var(--accent-blue)', display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+        <Store size={22} style={{ color: 'var(--hnk-blue)', flexShrink: 0, marginTop: '0.125rem' }} />
+        <div>
+          <strong style={{ fontFamily: 'var(--font-display)', color: 'var(--hnk-blue)', fontSize: '0.95rem', display: 'block' }}>Retiro de Pedidos</strong>
+          <span style={{ fontSize: '0.85rem', color: 'var(--text-main)', fontWeight: 600 }}>Los pedidos se retiran en el comedor de Primaria en la franja horaria seleccionada.</span>
+        </div>
+      </div>
+
     </section>
   );
 };
