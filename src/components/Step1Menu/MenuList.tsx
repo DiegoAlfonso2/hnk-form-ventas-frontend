@@ -36,7 +36,7 @@ export const MenuList: React.FC<MenuListProps> = ({ menuItems = [], quantities, 
                 <div style={{ 
                   width: '70px', 
                   height: '70px', 
-                  background: item.imageColor, 
+                  background: item.image ? `url(/${item.image}) center/cover no-repeat` : item.imageColor, 
                   borderRadius: '16px',
                   display: 'flex',
                   alignItems: 'center',
@@ -49,7 +49,7 @@ export const MenuList: React.FC<MenuListProps> = ({ menuItems = [], quantities, 
                   border: '2px solid var(--hnk-blue)',
                   boxShadow: '2px 2px 0px var(--hnk-blue)'
                 }}>
-                  {item.name.charAt(0)}
+                  {!item.image && item.name.charAt(0)}
                 </div>
 
                 {/* Info */}

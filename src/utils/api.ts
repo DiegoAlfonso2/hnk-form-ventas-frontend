@@ -18,6 +18,7 @@ export interface BackendMenuItem {
   stock: number | null;
   status: 'available' | 'out_of_stock' | 'inactive';
   displayOrder: number;
+  image?: string | null;
 }
 
 export interface ClassSectionOption {

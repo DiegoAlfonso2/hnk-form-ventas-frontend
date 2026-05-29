@@ -6,6 +6,7 @@ export interface MenuItem {
   description: string;
   price: number;
   imageColor: string; // Gradient color for beautiful cards
+  image?: string | null; // Optional image filename
 }
 
 export interface ContactInfo {

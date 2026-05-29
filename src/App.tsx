@@ -55,6 +55,7 @@ function App() {
           name: item.name,
           description: item.description || '',
           price: item.price / 100,
+          image: item.image,
           imageColor: idx % 4 === 0 
             ? 'linear-gradient(135deg, #ff7b00, #ffae00)' 
             : idx % 4 === 1 
