@@ -162,17 +162,30 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
         </p>
         <div style={{ 
           background: 'var(--accent-pink-light)', 
-          border: '2px solid var(--accent-pink)', 
+          border: '2.5px solid var(--accent-pink)', 
           borderRadius: '16px', 
-          padding: '1rem', 
+          padding: '1.25rem', 
           maxWidth: '650px', 
           margin: '1.25rem auto 0 auto',
           fontSize: '0.95rem',
           fontWeight: 700,
           color: 'var(--text-main)',
-          boxShadow: '2px 2px 0px var(--accent-pink)'
+          boxShadow: '3px 3px 0px var(--accent-pink)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.5rem',
+          textAlign: 'left'
         }}>
-          ⚠️ El pedido se confirmará una vez que se suba el comprobante de transferencia en el paso siguiente.
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-pink)', fontSize: '1.05rem', fontWeight: 800 }}>
+            <AlertCircle size={20} />
+            <span>Información Importante sobre tu Reserva</span>
+          </div>
+          <p style={{ margin: 0, fontWeight: 600, color: 'var(--text-main)' }}>
+            El pedido se confirmará una vez que se suba el comprobante de transferencia en el paso siguiente.
+          </p>
+          <p style={{ margin: 0, fontWeight: 700, color: 'var(--accent-pink)', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+            <span>⚠️</span> Las reservas se cancelan automáticamente a las 24 horas si no se sube el comprobante de pago.
+          </p>
         </div>
       </div>
 
