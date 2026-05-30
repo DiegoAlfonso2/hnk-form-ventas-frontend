@@ -210,7 +210,7 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
                 {getFriendlyTimeSlot(contact.deliveryTimeSlot)}
               </span>
               <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>
-                Colegio HNK - Ingreso por Pringles 268
+                Entrega en Comedor de Primaria
               </span>
             </div>
           </div>
