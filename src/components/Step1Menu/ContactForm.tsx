@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ContactInfo } from '../../hooks/useCart';
-import { User, Phone, Mail, Clock, MessageSquare, Store, GraduationCap } from 'lucide-react';
+import { User, Phone, Mail, Clock, Store, GraduationCap } from 'lucide-react';
 
 interface ContactFormProps {
   contact: ContactInfo;
@@ -156,22 +156,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         </div>
       </div>
 
-      <div className="form-group" style={{ marginBottom: 0 }}>
-        <label htmlFor="notes" className="form-label">Notas Adicionales (Opcional)</label>
-        <div style={{ position: 'relative' }}>
-          <textarea
-            id="notes"
-            name="notes"
-            className="form-control"
-            placeholder="Aclaraciones sobre alergias, indicaciones especiales, etc..."
-            value={contact.notes}
-            onChange={handleChange}
-            rows={3}
-            style={{ paddingLeft: '2.75rem', resize: 'none' }}
-          />
-          <MessageSquare size={18} style={{ position: 'absolute', left: '1rem', top: '1rem', color: 'var(--text-muted)', opacity: 0.8 }} />
-        </div>
-      </div>
+
 
       {/* Static Pickup Details Box */}
       <div className="glass-panel" style={{ padding: '1rem', background: 'var(--hnk-blue-light)', marginTop: '1.25rem',marginBottom: '1.25rem', borderColor: 'var(--accent-blue)', display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
