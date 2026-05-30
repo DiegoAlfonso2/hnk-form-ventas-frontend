@@ -80,6 +80,12 @@ export const api = {
     return res.json();
   },
 
+  async getEvent(eventId: string): Promise<BackendEvent> {
+    const res = await fetch(`${API_BASE_URL}/events/${eventId}`);
+    if (!res.ok) throw new Error('Error al obtener el evento');
+    return res.json();
+  },
+
   async getEventMenu(eventId: string): Promise<BackendMenuItem[]> {
     const res = await fetch(`${API_BASE_URL}/events/${eventId}/menu`);
     if (!res.ok) throw new Error('Error al obtener el menú');

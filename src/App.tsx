@@ -38,14 +38,15 @@ function App() {
     const loadAppData = async () => {
       setIsLoading(true);
       try {
-        // 1. Fetch active events
-        const eventsList = await api.getEvents();
-        const activeEvent = eventsList[0];
-        if (!activeEvent) {
-          console.error("No active events found");
+        // 1. Fetch event config by environment variable VITE_EVENT_ID
+        const eventId = import.meta.env.VITE_EVENT_ID;
+        if (!eventId) {
+          console.error("VITE_EVENT_ID is not configured in the environment");
           setIsLoading(false);
           return;
         }
+
+        const activeEvent = await api.getEvent(eventId);
         setCurrentEvent(activeEvent);
 
         // 2. Fetch menu items for this event (and convert prices from cents to pesos)
@@ -251,7 +252,6 @@ function App() {
         </div>
       </div>
 
-      {/* Main Content Area */}
       <main style={{ minHeight: '60vh' }}>
         {isLoading ? (
           <div style={{ 
@@ -270,88 +270,208 @@ function App() {
               <p style={{ fontSize: '0.9rem' }}>Esto tomará solo un momento.</p>
             </div>
           </div>
+        ) : !currentEvent ? (
+          /* Error fallback if event configuration is not loaded */
+          <div style={{ 
+            maxWidth: '600px', 
+            margin: '2rem auto', 
+            textAlign: 'center',
+            padding: '2.5rem 1.5rem',
+            background: 'var(--error-light)',
+            border: '3px solid var(--error)',
+            borderRadius: '20px',
+            boxShadow: '4px 4px 0px var(--error)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '1rem'
+          }} className="glass-panel animate-fade-in">
+            <span style={{ fontSize: '3rem', margin: 0 }}>⚠️</span>
+            <h3 style={{ 
+              fontFamily: 'var(--font-display)', 
+              fontSize: '1.5rem', 
+              color: 'var(--hnk-blue)', 
+              margin: 0
+            }}>
+              Configuración Incompleta
+            </h3>
+            <p style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-main)', margin: 0, lineHeight: 1.5 }}>
+              No se pudo cargar la configuración del evento. Por favor, verifica que la variable VITE_EVENT_ID esté configurada correctamente.
+            </p>
+          </div>
         ) : step === 1 ? (
           /* Step 1: Menu selection and Contact details */
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: '1fr', 
-            gap: '2rem' 
-          }} className="step1-layout">
-            
-            {/* Grid Container for inputs and menu list */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }} className="step1-main">
+          currentEvent.status !== 'active' ? (
+            /* Warning if presale is closed */
+            <div style={{ 
+              maxWidth: '600px', 
+              margin: '2rem auto', 
+              textAlign: 'center',
+              padding: '2.5rem 1.5rem',
+              background: 'var(--accent-pink-light)',
+              border: '3.5px solid var(--accent-pink)',
+              borderRadius: '20px',
+              boxShadow: '4px 4px 0px var(--accent-pink)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '1rem'
+            }} className="glass-panel animate-fade-in">
+              <span style={{ fontSize: '3.5rem', margin: 0 }}>🔒</span>
+              <h3 style={{ 
+                fontFamily: 'var(--font-display)', 
+                fontSize: '1.6rem', 
+                color: 'var(--hnk-blue)', 
+                margin: 0
+              }}>
+                Preventa Cerrada
+              </h3>
+              <p style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-main)', margin: 0, lineHeight: 1.6 }}>
+                La preventa para el evento <strong>{currentEvent.name}</strong> se encuentra cerrada y no se aceptan nuevos pedidos.
+              </p>
+            </div>
+          ) : (
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: '1fr', 
+              gap: '2rem' 
+            }} className="step1-layout">
               
-              {/* Edit Mode Alert Banner */}
-              {isEditingExistingOrder && (
-                <div style={{
-                  background: 'var(--accent-yellow-light)',
-                  border: '3px dashed var(--accent-yellow)',
-                  borderRadius: '18px',
-                  padding: '1.2rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  color: 'var(--hnk-blue)',
-                  fontWeight: 700,
-                  fontFamily: 'var(--font-display)',
-                  boxShadow: 'var(--card-shadow)'
-                }} className="animate-fade-in">
-                  <span style={{ fontSize: '1.5rem' }}>✏️</span>
-                  <div>
-                    <span style={{ display: 'block', fontSize: '1.05rem' }}>Editando Pedido #{orderNumber}</span>
-                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>Los datos de contacto personales están bloqueados y no pueden ser modificados.</span>
+              {/* Grid Container for inputs and menu list */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }} className="step1-main">
+                
+                {/* Edit Mode Alert Banner */}
+                {isEditingExistingOrder && (
+                  <div style={{
+                    background: 'var(--accent-yellow-light)',
+                    border: '3px dashed var(--accent-yellow)',
+                    borderRadius: '18px',
+                    padding: '1.2rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    color: 'var(--hnk-blue)',
+                    fontWeight: 700,
+                    fontFamily: 'var(--font-display)',
+                    boxShadow: 'var(--card-shadow)'
+                  }} className="animate-fade-in">
+                    <span style={{ fontSize: '1.5rem' }}>✏️</span>
+                    <div>
+                      <span style={{ display: 'block', fontSize: '1.05rem' }}>Editando Pedido #{orderNumber}</span>
+                      <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 600 }}>Los datos de contacto personales están bloqueados y no pueden ser modificados.</span>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* Contact Info Form */}
-              <ContactForm 
-                contact={contact} 
-                onChange={setContact} 
-                isReadOnlyContact={isEditingExistingOrder}
-                classSections={classSections}
-              />
+                {/* Contact Info Form */}
+                <ContactForm 
+                  contact={contact} 
+                  onChange={setContact} 
+                  isReadOnlyContact={isEditingExistingOrder}
+                  classSections={classSections}
+                />
 
-              {/* Menu Portions Selector */}
-              <MenuList 
-                menuItems={menuItems}
-                quantities={quantities} 
-                onQuantityChange={updateQuantity} 
-              />
+                {/* Menu Portions Selector */}
+                <MenuList 
+                  menuItems={menuItems}
+                  quantities={quantities} 
+                  onQuantityChange={updateQuantity} 
+                />
+              </div>
+
+              {/* Cart Summary Panel */}
+              <div className="step1-sidebar">
+                <CartSummary
+                  cartItems={cartItems}
+                  subtotal={subtotal}
+                  total={total}
+                  isValid={isFormValid}
+                  onCheckout={handleCheckout}
+                  isEditing={isEditingExistingOrder}
+                />
+              </div>
             </div>
-
-            {/* Cart Summary Panel */}
-            <div className="step1-sidebar">
-              <CartSummary
-                cartItems={cartItems}
-                subtotal={subtotal}
-                total={total}
-                isValid={isFormValid}
-                onCheckout={handleCheckout}
-                isEditing={isEditingExistingOrder}
-              />
-            </div>
-          </div>
+          )
         ) : step === 2 ? (
           /* Step 2: Order receipt, Bank details, upload transfer voucher */
-          <PaymentSection
-            orderNumber={orderNumber}
-            contact={contact}
-            cartItems={cartItems}
-            total={total}
-            onBack={handleBackToStep1}
-            onOrderCompleted={handleGoToStep3}
-            onUploadVoucher={handleUploadVoucher}
-          />
+          currentEvent.status === 'inactive' ? (
+            <div style={{ 
+              maxWidth: '600px', 
+              margin: '2rem auto', 
+              textAlign: 'center',
+              padding: '2.5rem 1.5rem',
+              background: 'var(--accent-yellow-light)',
+              border: '3.5px solid var(--accent-yellow)',
+              borderRadius: '20px',
+              boxShadow: '4px 4px 0px var(--accent-yellow)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '1rem'
+            }} className="glass-panel animate-fade-in">
+              <span style={{ fontSize: '3.5rem', margin: 0 }}>⚠️</span>
+              <h3 style={{ 
+                fontFamily: 'var(--font-display)', 
+                fontSize: '1.6rem', 
+                color: 'var(--hnk-blue)', 
+                margin: 0
+              }}>
+                Evento Inactivo
+              </h3>
+              <p style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-main)', margin: 0, lineHeight: 1.6 }}>
+                El evento no se encuentra activo.
+              </p>
+            </div>
+          ) : (
+            <PaymentSection
+              orderNumber={orderNumber}
+              contact={contact}
+              cartItems={cartItems}
+              total={total}
+              onBack={handleBackToStep1}
+              onOrderCompleted={handleGoToStep3}
+              onUploadVoucher={handleUploadVoucher}
+            />
+          )
         ) : (
           /* Step 3: Confirmation and withdrawal details */
-          <OrderConfirmed
-            orderNumber={orderNumber}
-            contact={contact}
-            cartItems={cartItems}
-            total={total}
-            onCompleted={handleOrderCompleted}
-          />
+          currentEvent.status === 'inactive' ? (
+            <div style={{ 
+              maxWidth: '600px', 
+              margin: '2rem auto', 
+              textAlign: 'center',
+              padding: '2.5rem 1.5rem',
+              background: 'var(--accent-yellow-light)',
+              border: '3.5px solid var(--accent-yellow)',
+              borderRadius: '20px',
+              boxShadow: '4px 4px 0px var(--accent-yellow)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '1rem'
+            }} className="glass-panel animate-fade-in">
+              <span style={{ fontSize: '3.5rem', margin: 0 }}>⚠️</span>
+              <h3 style={{ 
+                fontFamily: 'var(--font-display)', 
+                fontSize: '1.6rem', 
+                color: 'var(--hnk-blue)', 
+                margin: 0
+              }}>
+                Evento Inactivo
+              </h3>
+              <p style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-main)', margin: 0, lineHeight: 1.6 }}>
+                El evento no se encuentra activo.
+              </p>
+            </div>
+          ) : (
+            <OrderConfirmed
+              orderNumber={orderNumber}
+              contact={contact}
+              cartItems={cartItems}
+              total={total}
+              onCompleted={handleOrderCompleted}
+            />
+          )
         )}
       </main>
 
