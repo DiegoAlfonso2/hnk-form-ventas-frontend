@@ -37,12 +37,14 @@ export interface CreateOrderPayload {
   customerEmail: string;
   customerPhone: string;
   classSection: string;
+  deliveryTimeSlot: string;
   items: OrderItemInput[];
   notes?: string;
 }
 
 export interface EditOrderPayload {
   items: OrderItemInput[];
+  deliveryTimeSlot?: string;
   notes?: string;
 }
 
@@ -54,6 +56,7 @@ export interface BackendOrder {
   customerEmail: string;
   customerPhone: string;
   classSection: string;
+  deliveryTimeSlot: string;
   notes?: string | null;
   totalPrice: number; // in cents
   totalPaid: number; // in cents
