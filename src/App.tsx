@@ -221,9 +221,7 @@ function App() {
 
       {/* School Festival Event Banner */}
       <div className="banner-escolar">
-        <span>🌸</span>
-        <span><strong>¡KARAOKE 2026!</strong> Preventa de Comida - Sábado 06 de Junio</span>
-        <span>🎤</span>
+        {currentEvent.description}
       </div>
 
       {/* Steps Tracker Navigation */}
