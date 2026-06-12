@@ -221,7 +221,11 @@ function App() {
 
       {/* School Festival Event Banner */}
       <div className="banner-escolar">
-        {currentEvent.description}
+        {currentEvent?.description ? (
+          <div dangerouslySetInnerHTML={{ __html: currentEvent.description }} />
+        ) : (
+          'Evento'
+        )}
       </div>
 
       {/* Steps Tracker Navigation */}
