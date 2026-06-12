@@ -126,7 +126,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
 
       {/* Class Section Dropdown */}
       <div className="form-group" style={{ marginBottom: '1.25rem' }}>
-        <label htmlFor="classSection" className="form-label">Sala / Grado / Año del Alumno (Seleccione hija/o mayor) {isReadOnlyContact && <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>(No editable)</span>}</label>
+        <label htmlFor="classSection" className="form-label">Sala / Grado / Año del Alumno (Seleccione hija/o mayor - "Otros" si es externo al colegio) {isReadOnlyContact && <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>(No editable)</span>}</label>
         <div style={{ position: 'relative' }}>
           <select
             id="classSection"
