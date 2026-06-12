@@ -31,7 +31,7 @@ function App() {
     isFormValid,
     resetCart,
     loadOrderData
-  } = useCart(menuItems);
+  } = useCart(menuItems, currentEvent?.timeSlotsEnabled ?? true);
 
   // Fetch initial app data (Events, Menu Items, Class Sections) and handle deep linking on mount
   useEffect(() => {
@@ -98,7 +98,7 @@ function App() {
                 phone: order.customerPhone,
                 email: order.customerEmail,
                 classSection: order.classSection,
-                deliveryTimeSlot: order.deliveryTimeSlot,
+                deliveryTimeSlot: order.deliveryTimeSlot || '',
                 notes: order.notes || ''
               },
               quantitiesMap
@@ -143,7 +143,7 @@ function App() {
         // Edit flow
         const updatedOrder = await api.editOrder(orderId, {
           items: itemsPayload,
-          deliveryTimeSlot: contact.deliveryTimeSlot,
+          deliveryTimeSlot: currentEvent.timeSlotsEnabled ? contact.deliveryTimeSlot : null,
           notes: contact.notes
         });
         setOrderNumber(updatedOrder.orderNumber);
@@ -155,7 +155,7 @@ function App() {
           customerEmail: contact.email,
           customerPhone: contact.phone,
           classSection: contact.classSection,
-          deliveryTimeSlot: contact.deliveryTimeSlot,
+          deliveryTimeSlot: currentEvent.timeSlotsEnabled ? contact.deliveryTimeSlot : null,
           items: itemsPayload,
           notes: contact.notes
         });
@@ -371,6 +371,8 @@ function App() {
                   onChange={setContact} 
                   isReadOnlyContact={isEditingExistingOrder}
                   classSections={classSections}
+                  timeSlotsEnabled={currentEvent.timeSlotsEnabled}
+                  timeSlotsRaw={currentEvent.timeSlots}
                 />
 
                 {/* Menu Portions Selector */}

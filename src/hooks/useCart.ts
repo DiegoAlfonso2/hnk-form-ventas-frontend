@@ -69,7 +69,7 @@ export const MENU_ITEMS: MenuItem[] = [
   }
 ];
 
-export const useCart = (fetchedMenuItems: MenuItem[] = []) => {
+export const useCart = (fetchedMenuItems: MenuItem[] = [], timeSlotsEnabled = true) => {
   const [contact, setContact] = useState<ContactInfo>({
     name: '',
     phone: '',
@@ -122,10 +122,10 @@ export const useCart = (fetchedMenuItems: MenuItem[] = []) => {
     const hasPhone = contact.phone.trim().length > 0;
     const hasEmail = contact.email.trim().length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email);
     const hasClassSection = contact.classSection.trim().length > 0;
-    const hasTimeSlot = contact.deliveryTimeSlot.trim().length > 0;
+    const hasTimeSlot = !timeSlotsEnabled || contact.deliveryTimeSlot.trim().length > 0;
 
     return hasItems && hasName && hasPhone && hasEmail && hasClassSection && hasTimeSlot;
-  }, [contact, itemsCount]);
+  }, [contact, itemsCount, timeSlotsEnabled]);
 
   const resetCart = () => {
     setContact({

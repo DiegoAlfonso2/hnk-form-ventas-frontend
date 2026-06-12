@@ -7,6 +7,8 @@ export interface BackendEvent {
   date: number;
   schoolYear: number;
   status: 'active' | 'inactive' | 'completed';
+  timeSlotsEnabled: boolean;
+  timeSlots: string | null;
 }
 
 export interface BackendMenuItem {
@@ -37,14 +39,14 @@ export interface CreateOrderPayload {
   customerEmail: string;
   customerPhone: string;
   classSection: string;
-  deliveryTimeSlot: string;
+  deliveryTimeSlot: string | null;
   items: OrderItemInput[];
   notes?: string;
 }
 
 export interface EditOrderPayload {
   items: OrderItemInput[];
-  deliveryTimeSlot?: string;
+  deliveryTimeSlot?: string | null;
   notes?: string;
 }
 
@@ -56,7 +58,7 @@ export interface BackendOrder {
   customerEmail: string;
   customerPhone: string;
   classSection: string;
-  deliveryTimeSlot: string;
+  deliveryTimeSlot: string | null;
   notes?: string | null;
   totalPrice: number; // in cents
   totalPaid: number; // in cents
