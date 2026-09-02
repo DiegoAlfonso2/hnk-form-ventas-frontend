@@ -210,7 +210,7 @@ export const PaymentSection: React.FC<PaymentSectionProps> = ({
                 {getFriendlyTimeSlot(contact.deliveryTimeSlot)}
               </span>
               <span style={{ color: 'var(--text-muted)', fontWeight: 600 }}>
-                Entrega en Comedor de Primaria
+                Entrega en Yatay 261
               </span>
             </div>
           </div>
